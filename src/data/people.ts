@@ -19,6 +19,8 @@ export type Person = {
   group: PersonGroup[];
   affiliation: Institution[];
   href?: string;
+  /** Override the auto-derived slug only when a name correction would break existing URLs */
+  slugOverride?: string;
 };
 
 export const people: Person[] = [
@@ -1352,14 +1354,14 @@ export const people: Person[] = [
   {
     name: "Renjie Hu",
     tags: ["Faculty"],
-    src: "",
+    src: "/people/faculty/renjie-hu.jpg",
     group: ["Faculty"],
     affiliation: ["UH"],
   },
   {
     name: "Zheng Chen",
     tags: ["Faculty"],
-    src: "",
+    src: "/people/faculty/zheng-chen.jpg",
     group: ["Faculty"],
     affiliation: ["UH"],
   },
@@ -1814,7 +1816,7 @@ export const people: Person[] = [
   {
     name: "Xuqing Wu",
     tags: ["Faculty"],
-    src: "",
+    src: "/people/faculty/xuqing-wu.jpg",
     group: ["Faculty"],
     affiliation: ["UH"],
   },
