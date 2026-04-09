@@ -15,6 +15,20 @@ export type NewsItem = {
 export const newsItems: NewsItem[] = [
   {
     slug: "contreras-vidal-nai-senior-member",
+    title: "University of Houston BRAIN Center Finds Exposure to Nature Associated with Reductions in Negative Emotions",
+    date: "2026-03-24",
+    dateLabel: "Mar 24, 2026",
+    summary:
+      "Research Indicates an Urgent Need to Integrate Nature into Urban Design to Increase Brain health",
+    href: "https://www.uh.edu/news-events/stories/2026/march/03242026-contreras-vidal-nature-brain.php",
+    imageSrc: "/news/nature-brain-bridge-newsoom.jpg",
+    imageAlt: "Nature BRAIN bridge",
+    content: `
+UH BRAIN Center findings on nature exposure associated with Brain health : https://www.uh.edu/news-events/stories/2026/march/03242026-contreras-vidal-nature-brain.php
+    `,
+  },
+  {
+    slug: "contreras-vidal-nai-senior-member",
     title: "Contreras-Vidal Elected to National Academy of Inventors",
     date: "2026-02-26",
     dateLabel: "Feb 26, 2026",
