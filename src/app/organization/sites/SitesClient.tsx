@@ -307,7 +307,7 @@ function SitesMap() {
                 <Link
                   href={hoveredSiteData.link}
                   target="_blank"
-                  className="block w-full py-2 text-center rounded bg-[var(--deep-teal)] hover:bg-[var(--luminous-mint)] hover:text-black text-white text-[10px] font-bold uppercase tracking-wide transition-all"
+                  className="block w-full py-2 text-center rounded bg-[var(--teal-ink)] hover:bg-[var(--luminous-mint)] hover:text-[var(--midnight-blue)] text-white text-[10px] font-bold uppercase tracking-wide transition-all"
                 >
                   Visit Website
                 </Link>

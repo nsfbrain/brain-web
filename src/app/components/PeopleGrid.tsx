@@ -67,7 +67,7 @@ export default function PeopleGrid({ people, variant = 'student', profileSlugs }
           aria-pressed={activeFilter === 'all'}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
             activeFilter === 'all'
-              ? 'bg-[var(--deep-teal)] text-white'
+              ? 'bg-[var(--teal-ink)] text-white'
               : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
           }`}
         >
@@ -90,7 +90,7 @@ export default function PeopleGrid({ people, variant = 'student', profileSlugs }
             aria-pressed={activeFilter === id}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               activeFilter === id
-                ? 'bg-[var(--deep-teal)] text-white'
+                ? 'bg-[var(--teal-ink)] text-white'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >

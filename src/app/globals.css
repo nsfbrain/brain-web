@@ -4,12 +4,25 @@
    Global BRAIN Center Color System
    =============================== */
 
+/* Neutral text/border/background scale: Tailwind's default slate-* utilities,
+   used directly (not duplicated as custom tokens — same hue family as
+   --midnight-blue, no reason to maintain a second gray ramp). Established
+   convention by actual usage across the site:
+     text-slate-900   headings/emphasis on white surfaces
+     text-slate-600/700 body copy
+     text-slate-600 captions/meta (floor; slate-400/500 are decorative only)
+     border-slate-200/300 dividers, card borders
+     bg-slate-50/100  subtle section backgrounds
+   Keep new text/border/background neutrals on this scale rather than
+   introducing new gray values. */
+
 :root {
   --midnight-blue: #02111B;   /* deeper, cleaner navy */
-  --deep-teal: #00A79D;       /* bright saturated teal */
-  --luminous-mint: #5EEAD4;   /* vivid mint accent */
+  --deep-teal: #00A79D;       /* bright saturated teal — for fills paired with dark text, large icons/graphics, and any use on --midnight-blue backgrounds. Only ~3:1 on white/light-slate — do not pair with white text or use as small text/icon color on light surfaces */
+  --teal-ink: #00756E;        /* same hue, darkened (5.57:1 on white, 5.14:1 on light-slate). Use for teal text, links, eyebrows, and as a CTA fill with white text on light surfaces */
+  --teal-ink-hover: #00635D;  /* hover/pressed for --teal-ink, 7.14:1 on white */
+  --luminous-mint: #5EEAD4;   /* vivid mint accent — hover/focus highlight, pairs with dark text only */
   --light-slate: #E6FAF8;     /* cleaner, fresher background tint */
-  --slate-gray: #334155;      /* refined cool gray for text contrast */
 
   --white: #ffffff;
 
@@ -29,12 +42,13 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   --header-height: 120px; 
 
-  --cta-primary: #00A79D;
-  --cta-hover: #009C91;
+  --cta-hover: var(--teal-ink-hover); /* legacy alias, remove once call sites use bg-teal-ink-hover */
 }
 
 
 @theme inline {
+  --color-teal-ink: var(--teal-ink);
+  --color-teal-ink-hover: var(--teal-ink-hover);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent-primary: var(--accent-primary);

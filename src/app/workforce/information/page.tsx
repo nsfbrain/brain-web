@@ -73,7 +73,7 @@ export default function WorkforcePage() {
               <div className="mt-2 sm:mt-0">
                 <Link
                   href="/join"
-                  className="inline-flex items-center rounded-md border border-[var(--deep-teal)] px-4 py-2 text-sm font-semibold text-[var(--deep-teal)] hover:bg-[var(--deep-teal)] hover:text-white transition-colors"
+                  className="inline-flex items-center rounded-md border border-[var(--teal-ink)] px-4 py-2 text-sm font-semibold text-[var(--teal-ink)] hover:bg-[var(--teal-ink)] hover:text-white transition-colors"
                 >
                   CLICK HERE
                 </Link>
