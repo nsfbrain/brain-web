@@ -5,6 +5,8 @@ type BaseCardProps = {
   href?: string;
   external?: boolean;
   className?: string;
+  /** Accessible name for image-only cards, whose content carries no text. */
+  "aria-label"?: string;
   children: ReactNode;
 };
 
@@ -13,6 +15,7 @@ function CardRoot({
   href,
   external,
   className = "",
+  "aria-label": ariaLabel,
   children,
 }: BaseCardProps) {
   const Cmp: ElementType = (href ? "a" : as) as ElementType;
@@ -27,12 +30,16 @@ function CardRoot({
   return (
     <Cmp
       {...attrs}
+      aria-label={ariaLabel}
       className={[
         "group block overflow-hidden rounded-2xl",
         "bg-transparent",
         "shadow-sm hover:shadow-md",
         "transition-all duration-150 focus:outline-none",
-        "focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)]",
+        // Teal, not --luminous-mint: cards sit on white/slate-50, where mint is
+        // 1.48:1 and fails WCAG 1.4.11 (3:1 for non-text). Teal is 5.57:1.
+        // Mint stays the focus colour on --midnight-blue surfaces (Header).
+        "focus-visible:ring-2 focus-visible:ring-[var(--teal-ink)]",
         className,
       ].join(" ")}
     >
@@ -57,7 +64,7 @@ function CardMedia({ children, ratio = "16/9", className = "" }: MediaProps) {
 
 type BodyProps = { children: ReactNode; className?: string };
 function CardBody({ children, className = "" }: BodyProps) {
-  return <div className={["p-4 bg-white text-black", className].join(" ")}>{children}</div>;
+  return <div className={["p-4 bg-white text-[var(--midnight-blue)]", className].join(" ")}>{children}</div>;
 }
 
 type TextProps = { children: ReactNode; className?: string; as?: ElementType };
@@ -66,10 +73,10 @@ function CardTitle({ children, className = "", as: T = "h3" }: TextProps) {
   return <TitleCmp className={["text-lg font-semibold", className].join(" ")}>{children}</TitleCmp>;
 }
 function CardMeta({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={["mt-1 text-sm text-black/70", className].join(" ")}>{children}</p>;
+  return <p className={["mt-1 text-sm text-[var(--midnight-blue)]/70", className].join(" ")}>{children}</p>;
 }
 function CardSummary({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={["mt-2 text-black/80 line-clamp-2", className].join(" ")}>{children}</p>;
+  return <p className={["mt-2 text-[var(--midnight-blue)]/80 line-clamp-2", className].join(" ")}>{children}</p>;
 }
 
 const Card = Object.assign(CardRoot, {

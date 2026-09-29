@@ -65,8 +65,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans antialiased overflow-x-hidden">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] rounded-md bg-white px-4 py-2 text-[var(--midnight-blue)] shadow-lg"
+        >
+          Skip to content
+        </a>
         <Header />
-        <main id="main" className="w-full flex-grow">
+        <main id="main" tabIndex={-1} className="w-full flex-grow focus:outline-none">
           {children}
         </main>
         <ScrollToTop />

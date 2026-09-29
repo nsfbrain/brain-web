@@ -96,10 +96,10 @@ function LogoGroup() {
       <div className="flex items-center gap-4 border-l border-white/30 pl-6 py-1">
         <Image
           src="/nsf-logo.png"
-          alt="NSF"
+          alt="U.S. National Science Foundation"
           width={48}
           height={48}
-          className="h-12 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all duration-300"
+          className="h-12 w-auto object-contain"
         />
 
         <div className="hidden md:block text-left leading-tight opacity-80">
