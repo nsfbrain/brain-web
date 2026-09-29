@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { sites, Site } from "@/data/sites";
+import { isSvg } from "@/lib/image";
 
 const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json";
 const usGeoUrl = "https://unpkg.com/us-atlas@3.0.0/states-10m.json";
@@ -286,6 +287,7 @@ function SitesMap() {
                       width={40}
                       height={40}
                       className="w-full h-full object-contain p-1.5"
+                      unoptimized={isSvg(hoveredSiteData.logos.small)}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
