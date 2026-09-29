@@ -117,8 +117,8 @@ const BrainVideo: React.FC<BrainVideoProps> = ({ overlayOpacity = 0.75 }) => {
       {renderSlide(current, 1)}
       {next !== null && renderSlide(next, nextVisible ? 1 : 0)}
       <div
-        className="absolute inset-0 z-10"
-        style={{ backgroundColor: `rgba(7, 23, 36, ${overlayOpacity})` }}
+        className="hero-scrim absolute inset-0 z-10"
+        style={{ "--scrim-opacity": overlayOpacity } as React.CSSProperties}
       />
     </div>
   );

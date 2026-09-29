@@ -65,6 +65,18 @@
   /* centered readable column */
   .container { @apply mx-auto max-w-6xl px-6; }
 
+  /* Hero scrim over the background video. Opacity comes from --scrim-opacity,
+     set by BrainVideo.tsx. Uses --midnight-blue so the scrim tracks the brand
+     navy; this replaced a hardcoded #071724, a ~7/255 per-channel shift. */
+  .hero-scrim {
+    /* rgb of --midnight-blue (#02111B), written literally on purpose. Deriving
+       it via color-mix() makes the build emit an opaque var(--midnight-blue)
+       fallback that hides the video below the color-mix support floor, and that
+       generated rule wins over any hand-written fallback. Keep in sync by hand
+       if the brand navy moves. */
+    background-color: rgba(2, 17, 27, var(--scrim-opacity, 0.75));
+  }
+
   /* full-bleed band without mobile overflow */
   .full-bleed { @apply md:relative md:left-1/2 md:right-1/2 md:-mx-[50vw] md:w-screen; }
 }
