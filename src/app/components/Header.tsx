@@ -117,7 +117,7 @@ function LogoGroup() {
 
 type NavSubItem = { label: string; href: string };
 type NavSection = { heading?: string; items: NavSubItem[]; tinted?: boolean };
-type NavGroup = { label: string; items?: NavSubItem[]; sections?: NavSection[]; footer?: NavSubItem };
+type NavGroup = { label: string; items?: NavSubItem[]; sections?: NavSection[] };
 type NavSingle = { label: string; href: string };
 type NavItem = NavGroup | NavSingle;
 
@@ -176,7 +176,6 @@ const NAV: NavItem[] = [
         ],
       },
     ],
-    footer: { label: "Careers", href: "/organization/careers" },
   },
   {
     label: "Workforce",
@@ -353,23 +352,6 @@ export default function Header() {
                                 </div>
                               </div>
                             ))}
-                            {item.footer && (
-                              <>
-                                <div className="mx-3 mt-1 h-px bg-white/[0.15]" />
-                                <Link
-                                  className="flex items-center justify-between px-4 py-2.5 text-[13px] transition-colors text-white/80 hover:bg-white/5 hover:text-white"
-                                  href={item.footer.href}
-                                  target={isExternal(item.footer.href) ? "_blank" : undefined}
-                                  rel={isExternal(item.footer.href) ? "noopener noreferrer" : undefined}
-                                  onClick={() => setOpenMenu(null)}
-                                >
-                                  <span>{item.footer.label}</span>
-                                  {isExternal(item.footer.href) && (
-                                    <ExternalArrow className="w-3 h-3" />
-                                  )}
-                                </Link>
-                              </>
-                            )}
                           </div>
                         ) : (
                           <ul>
@@ -489,23 +471,6 @@ export default function Header() {
                             </li>
                           ))}
                         </ul>
-                      )}
-                      {item.footer && (
-                        <>
-                          <div className="my-3 h-px bg-white/[0.15]" />
-                          <Link
-                            href={item.footer.href}
-                            className="flex items-center gap-2 text-[15px] text-white/70 hover:text-[var(--luminous-mint)] py-1"
-                            onClick={() => setMobileOpen(false)}
-                            target={isExternal(item.footer.href) ? "_blank" : undefined}
-                            rel={isExternal(item.footer.href) ? "noopener noreferrer" : undefined}
-                          >
-                            <span>{item.footer.label}</span>
-                            {isExternal(item.footer.href) && (
-                              <ExternalArrow className="w-3.5 h-3.5 opacity-60" />
-                            )}
-                          </Link>
-                        </>
                       )}
                     </div>
                   </details>
