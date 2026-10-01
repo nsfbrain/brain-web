@@ -75,12 +75,11 @@ export default function DonatePage() {
         <h2 className="text-2xl sm:text-3xl font-bold text-[var(--midnight-blue)]">
           Why your gift matters
         </h2>
-        <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-800">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-800">
           The BRAIN Center brings together the University of Houston, Arizona
-          State University, and partner institutions to rigorously test the
-          safety and long-term reliability of neurotechnology. Your gift funds
-          interdisciplinary research into brain function and behavior, work
-          that can directly improve people&apos;s quality of life.
+          State University, and partner institutions to turn interdisciplinary
+          brain research into neurotechnology that&apos;s safe, reliable, and
+          genuinely useful. Your gift makes that work possible.
         </p>
 
         <h2 className="mt-12 text-2xl sm:text-3xl font-bold text-[var(--midnight-blue)]">
