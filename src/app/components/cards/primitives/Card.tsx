@@ -5,8 +5,6 @@ type BaseCardProps = {
   href?: string;
   external?: boolean;
   className?: string;
-  /** Accessible name for image-only cards, whose content carries no text. */
-  "aria-label"?: string;
   children: ReactNode;
 };
 
@@ -15,7 +13,6 @@ function CardRoot({
   href,
   external,
   className = "",
-  "aria-label": ariaLabel,
   children,
 }: BaseCardProps) {
   const Cmp: ElementType = (href ? "a" : as) as ElementType;
@@ -30,7 +27,6 @@ function CardRoot({
   return (
     <Cmp
       {...attrs}
-      aria-label={ariaLabel}
       className={[
         "group block overflow-hidden rounded-2xl",
         "bg-transparent",

@@ -56,7 +56,6 @@ function Logo({ site }: { site: Site }) {
     <Card
       href={site.link}
       external
-      aria-label={site.name}
       className="flex w-[calc(50%-0.75rem)] items-center justify-center border border-slate-200 bg-white p-4 sm:w-56"
     >
       {/* bg-white above is required: partner marks always sit on white, never
@@ -71,6 +70,7 @@ function Logo({ site }: { site: Site }) {
           unoptimized={isSvg(site.logos.full)}
         />
       </div>
+      <span className="sr-only">(opens in new tab)</span>
     </Card>
   );
 }
