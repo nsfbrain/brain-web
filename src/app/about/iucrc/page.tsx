@@ -6,7 +6,7 @@ import PageHeader from "@/app/components/PageHeader";
 export const metadata: Metadata = {
   title: "NSF IUCRC Program",
   description:
-    "Learn about the National Science Foundation Industry–University Cooperative Research Centers (IUCRC) Program.",
+    "Learn about the U.S. National Science Foundation Industry–University Cooperative Research Centers (IUCRC) Program.",
   alternates: { canonical: "/about/iucrc" },
 };
 

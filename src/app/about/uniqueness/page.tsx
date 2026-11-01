@@ -78,7 +78,7 @@ export default function UniquenessPage() {
         {/* Lead paragraph */}
         <div className="mb-12 max-w-3xl">
           <p className="text-lg md:text-xl leading-relaxed font-medium text-[var(--midnight-blue)] mb-4">
-            The BRAIN Center is a Phase II National Science Foundation (NSF)–funded
+            The BRAIN Center is a Phase II U.S. National Science Foundation (NSF)–funded
             industry–university collaborative research center (IUCRC).
           </p>
           <p className="text-base md:text-lg leading-relaxed text-slate-600">

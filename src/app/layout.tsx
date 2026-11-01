@@ -46,7 +46,7 @@ const jsonLd = {
     "Building Reliable Advances and Innovations in Neurotechnology — an NSF-funded Industry–University Cooperative Research Center (IUCRC).",
   funder: {
     "@type": "GovernmentOrganization",
-    name: "National Science Foundation",
+    name: "U.S. National Science Foundation",
     url: "https://www.nsf.gov",
   },
 };

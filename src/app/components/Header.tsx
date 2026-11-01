@@ -107,7 +107,7 @@ function LogoGroup() {
             Supported by
           </span>
           <span className="block text-[0.65rem] uppercase tracking-widest font-semibold">
-            National Science Foundation
+            U.S. National Science Foundation
           </span>
         </div>
       </div>
