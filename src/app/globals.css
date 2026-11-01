@@ -5,7 +5,7 @@
    =============================== */
 
 /* Neutral text/border/background scale: Tailwind's default slate-* utilities,
-   used directly (not duplicated as custom tokens — same hue family as
+   used directly (not duplicated as custom tokens, same hue family as
    --midnight-blue, no reason to maintain a second gray ramp). Established
    convention by actual usage across the site:
      text-slate-900   headings/emphasis on white surfaces
@@ -18,10 +18,10 @@
 
 :root {
   --midnight-blue: #02111B;   /* deeper, cleaner navy */
-  --deep-teal: #00A79D;       /* bright saturated teal — for fills paired with dark text, large icons/graphics, and any use on --midnight-blue backgrounds. Only ~3:1 on white/light-slate — do not pair with white text or use as small text/icon color on light surfaces */
+  --deep-teal: #00A79D;       /* bright saturated teal. For fills paired with dark text, large icons/graphics, and any use on --midnight-blue backgrounds. Only ~3:1 on white/light-slate, so do not pair with white text or use as small text/icon color on light surfaces */
   --teal-ink: #00756E;        /* same hue, darkened (5.57:1 on white, 5.14:1 on light-slate). Use for teal text, links, eyebrows, and as a CTA fill with white text on light surfaces */
   --teal-ink-hover: #00635D;  /* hover/pressed for --teal-ink, 7.14:1 on white */
-  --luminous-mint: #5EEAD4;   /* vivid mint accent — hover/focus highlight, pairs with dark text only */
+  --luminous-mint: #5EEAD4;   /* vivid mint accent. Hover/focus highlight, pairs with dark text only */
   --light-slate: #E6FAF8;     /* cleaner, fresher background tint */
 
   --white: #ffffff;
