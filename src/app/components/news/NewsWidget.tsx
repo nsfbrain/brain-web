@@ -29,13 +29,13 @@ export function NewsWidget() {
               href="/news"
               className="py-3 text-sm font-semibold text-[var(--teal-ink)] hover:underline"
             >
-              View all news &rarr;
+              View all news <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="/events"
               className="py-3 text-sm font-semibold text-[var(--teal-ink)] hover:underline"
             >
-              View events &rarr;
+              View events <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </header>
