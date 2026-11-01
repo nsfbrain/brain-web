@@ -138,7 +138,7 @@ export default function DonatePage() {
               href="https://giving.uh.edu/gift"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-[var(--teal-ink)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--cta-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--midnight-blue)]"
+              className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-[var(--teal-ink)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-ink-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--midnight-blue)]"
             >
               Support the BRAIN Center ↗
             </Link>

@@ -237,7 +237,7 @@ export default async function FacultyProfilePage({ params }: Props) {
                       rel="noopener noreferrer"
                       className={
                         i === 0
-                          ? "inline-flex justify-center items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-semibold bg-[var(--teal-ink)] text-white hover:bg-[var(--cta-hover)] transition-colors shadow-sm sm:w-auto"
+                          ? "inline-flex justify-center items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-semibold bg-[var(--teal-ink)] text-white hover:bg-teal-ink-hover transition-colors shadow-sm sm:w-auto"
                           : "inline-flex justify-center items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-medium border border-slate-300 text-slate-600 hover:border-[var(--teal-ink)] hover:text-[var(--teal-ink)] transition-colors sm:w-auto"
                       }
                     >

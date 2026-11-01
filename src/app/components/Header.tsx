@@ -398,7 +398,7 @@ export default function Header() {
             <li className="ml-auto">
               <Link
                 href="/donate"
-                className="bg-[var(--teal-ink)] hover:bg-[var(--cta-hover)] text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-lg"
+                className="bg-[var(--teal-ink)] hover:bg-teal-ink-hover text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-lg"
               >
                 Donate
               </Link>
