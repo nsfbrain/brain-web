@@ -1,90 +1,76 @@
 import Image from "next/image";
+import Card from "./cards/primitives/Card";
+import { sites, type Site, type SiteCategory } from "@/data/sites";
+import { isSvg } from "@/lib/image";
+
+// Wrapping flex rather than a grid, so an incomplete last row stays centred.
+const LAYOUT = "flex flex-wrap justify-center gap-6";
+
+type LogoGroup = { label: string };
+
+// A Record rather than an array: adding a SiteCategory is then a type error
+// here, instead of a whole category silently vanishing from the homepage.
+// Render order is the key order below.
+const GROUPS: Record<SiteCategory, LogoGroup> = {
+  "BRAIN Site": { label: "BRAIN Sites" },
+  "External Collaborating Site": { label: "External Collaborating Sites" },
+  "International Affiliate Site": { label: "International Affiliate Sites" },
+};
+
+const GROUP_ENTRIES = Object.entries(GROUPS) as [SiteCategory, LogoGroup][];
 
 export default function Partners() {
   return (
-    <section className="relative bg-white w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-12">
-      <div className="mx-auto max-w-7xl px-6 text-center">
-        <div className="space-y-10">
-          {/* BRAIN Sites */}
-          <div>
-            <h3 className="text-2xl font-semibold text-slate-900 mb-6">
-              BRAIN Sites
-            </h3>
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5 max-w-5xl mx-auto">
-              <Logo
-                src="/partners/uh.png"
-                alt="University of Houston"
-              />
-              <Logo
-                src="/partners/asu.png"
-                alt="Arizona State University"
-              />
-              <Logo
-                src="/partners/git.png"
-                alt="Georgia Institute of Technology"
-              />
-              <Logo
-                src="/partners/wvu.png"
-                alt="West Virginia University"
-              />
-              <Logo
-                src="/partners/umbc.png"
-                alt="University of Maryland, Baltimore County"
-              />
-            </div>
-          </div>
+    <section className="bg-white py-12 md:py-16">
+      <div className="mx-auto max-w-6xl px-6 text-center sm:px-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--teal-ink)] mb-2">
+          Our Network
+        </p>
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[var(--midnight-blue)] mb-12">
+          BRAIN Sites &amp; Partners
+        </h2>
 
-          {/* External Collaborating Sites */}
-          <div>
-            <h3 className="text-xl font-semibold text-slate-900 mb-5">
-              External Collaborating Sites
-            </h3>
-            <div className="flex flex-wrap gap-8 justify-center max-w-3xl mx-auto">
-              <Logo
-                src="/partners/neu.png"
-                alt="Northeastern University"
-              />
-              <Logo
-                src="/partners/uab.svg"
-                alt="University of Alabama at Birmingham"
-              />
+        <div className="space-y-12">
+          {GROUP_ENTRIES.map(([category, group]) => (
+            <div key={category}>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600 mb-6">
+                {group.label}
+              </h3>
+              <div className={LAYOUT}>
+                {sites
+                  .filter((site) => site.category === category)
+                  .map((site) => (
+                    <Logo key={site.id} site={site} />
+                  ))}
+              </div>
             </div>
-          </div>
-
-          {/* International Affiliate Sites */}
-          <div>
-            <h3 className="text-xl font-semibold text-slate-900 mb-5">
-              International Affiliate Sites
-            </h3>
-            <div className="flex flex-wrap gap-8 justify-center max-w-3xl mx-auto">
-              <Logo
-                src="/partners/umh.png"
-                alt="Miguel Hernández University of Elche"
-              />
-              <Logo
-                src="/partners/tec.png"
-                alt="Tecnológico de Monterrey"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function Logo({ src, alt }: { src: string; alt: string }) {
+function Logo({ site }: { site: Site }) {
   return (
-    <div className="flex items-center justify-center p-4">
-      <div className="relative w-48 h-24">
+    <Card
+      href={site.link}
+      external
+      className="flex w-[calc(50%-0.75rem)] items-center justify-center border border-slate-200 bg-white p-4 sm:w-56"
+    >
+      {/* bg-white above is required: partner marks always sit on white, never
+          a teal or navy panel. Hover feedback lives on the tile, not the image. */}
+      <div className="relative h-24 w-full">
         <Image
-          src={src}
-          alt={alt}
+          src={site.logos.full}
+          alt={site.name}
           fill
           className="object-contain"
-          sizes="(max-width: 768px) 192px, 160px"
+          sizes="224px"
+          unoptimized={isSvg(site.logos.full)}
         />
       </div>
-    </div>
+      <span className="sr-only">(opens in new tab)</span>
+    </Card>
   );
 }

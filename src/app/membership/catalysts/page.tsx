@@ -204,7 +204,7 @@ export default function CatalystsPage() {
             </p>
             <Link
               href="/join"
-              className="mt-6 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-[var(--deep-teal)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--cta-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--midnight-blue)]"
+              className="mt-6 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-[var(--teal-ink)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-teal-ink-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--midnight-blue)]"
             >
               Join the Center
             </Link>

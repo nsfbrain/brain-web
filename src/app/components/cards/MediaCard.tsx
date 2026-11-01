@@ -41,7 +41,7 @@ export function MediaCard({
         />
       </Card.Media>
 
-      <Card.Body className="flex flex-col flex-1 border-t border-slate-100 bg-white px-4 py-4 text-black">
+      <Card.Body className="flex flex-col flex-1 border-t border-slate-100 bg-white px-4 py-4">
         {dateLabel && (
           <p className="text-xs text-slate-600 font-medium leading-snug">
             {dateLabel}
@@ -56,7 +56,7 @@ export function MediaCard({
 
         {href && (
           <div className="mt-auto">
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--deep-teal)] leading-snug">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--teal-ink)] leading-snug">
               Read more <span className="transition group-hover:translate-x-0.5">→</span>
             </span>
           </div>

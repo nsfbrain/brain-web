@@ -14,7 +14,7 @@ export type NewsItem = {
 
 export const newsItems: NewsItem[] = [
   {
-    slug: "contreras-vidal-nai-senior-member",
+    slug: "contreras-vidal-nature-brain",
     title: "University of Houston BRAIN Center Finds Exposure to Nature Associated with Reductions in Negative Emotions",
     date: "2026-03-24",
     dateLabel: "Mar 24, 2026",

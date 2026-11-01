@@ -55,7 +55,7 @@ export const sites: Site[] = [
     abbreviation: "WVU",
     category: "BRAIN Site",
     link: "https://www.wvu.edu",
-    logos: { full: "/partners/wvu.png", small: "/logos/sites/wvu.png" },
+    logos: { full: "/logos/sites/wvu.svg", small: "/logos/sites/wvu.png" },
     description: "Focusing on clinical applications and neural disorders.",
     coordinates: [-79.9559, 39.6358]
   },

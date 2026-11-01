@@ -16,7 +16,7 @@ const JoinUs: React.FC = () => {
 
         <a
           href="/join"
-          className="inline-block mt-8 rounded-lg bg-[var(--deep-teal)] px-8 py-3 text-base font-semibold text-white shadow-md transition hover:bg-[var(--cta-hover)]"
+          className="inline-block mt-8 rounded-lg bg-[var(--teal-ink)] px-8 py-3 text-base font-semibold text-white shadow-md transition hover:bg-teal-ink-hover"
         >
           Join Us
         </a>

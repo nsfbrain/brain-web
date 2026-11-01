@@ -55,7 +55,7 @@ export function EventCard({
         />
       </Card.Media>
 
-      <Card.Body className="border-t border-[var(--deep-teal)]/20 bg-white px-4 py-4 text-black">
+      <Card.Body className="border-t border-[var(--deep-teal)]/20 bg-white px-4 py-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-[var(--deep-teal)]">
           {dateLabel}
         </p>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { FC } from "react";
 import Card from "./primitives/Card";
 import type { MemberOrg } from "../../../data/members";
+import { isSvg } from "@/lib/image";
 
 type MemberLogoCardProps = Pick<MemberOrg, "name" | "logoSrc" | "website" | "alt">;
 
@@ -33,6 +34,7 @@ const MemberLogoCard: FC<MemberLogoCardProps> = ({
           width={260}
           height={120}
           className="h-14 sm:h-16 md:h-20 w-auto object-contain"
+          unoptimized={isSvg(logoSrc)}
         />
       </div>
     </Card>
