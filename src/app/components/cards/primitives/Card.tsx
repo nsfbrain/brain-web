@@ -35,7 +35,7 @@ function CardRoot({
         // Teal, not --luminous-mint: cards sit on white/slate-50, where mint is
         // 1.48:1 and fails WCAG 1.4.11 (3:1 for non-text). Teal is 5.57:1.
         // Mint stays the focus colour on --midnight-blue surfaces (Header).
-        "focus-visible:ring-2 focus-visible:ring-[var(--teal-ink)]",
+        "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal-ink)]",
         className,
       ].join(" ")}
     >
