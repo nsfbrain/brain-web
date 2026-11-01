@@ -102,7 +102,8 @@ function LogoGroup() {
           className="h-12 w-auto object-contain"
         />
 
-        <div className="hidden md:block text-left leading-tight opacity-80">
+        {/* The seal's alt text already names the agency, so hide this label from screen readers. */}
+        <div aria-hidden="true" className="hidden md:block text-left leading-tight opacity-80">
           <span className="block text-[0.65rem] uppercase tracking-widest font-semibold">
             Supported by
           </span>
