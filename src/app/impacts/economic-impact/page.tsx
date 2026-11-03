@@ -17,7 +17,8 @@ export default function EconomicImpactPage() {
         description="BRAIN Center research targets the hundreds-of-billions annual burden of neurological disability through advances in treatment, diagnosis, and rehabilitation."
       />
 
-      <section className="mx-auto max-w-4xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
+        <div className="max-w-[65ch]">
         {/* Opening context */}
         <p className="text-base leading-relaxed text-slate-700">
           Increases in life expectancy have shifted the leading causes of
@@ -180,6 +181,7 @@ export default function EconomicImpactPage() {
               </span>
             </li>
           </ul>
+        </div>
         </div>
       </section>
     </div>

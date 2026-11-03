@@ -13,7 +13,8 @@ export default function BroaderImpactsPage() {
     <div className="bg-white">
       <PageHeader eyebrow="Impacts" title="Broader Impacts" description="BRAIN Center trains the next generation, expands institutional access, and bridges neurotechnology with entrepreneurial and regulatory ecosystems." />
 
-      <section className="mx-auto max-w-4xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
+        <div className="max-w-[65ch]">
         {/* Opening paragraph */}
         <p className="text-base leading-relaxed text-slate-700">
           The BRAIN Center leverages engineering, neuroscience, and innovation
@@ -75,6 +76,7 @@ export default function BroaderImpactsPage() {
             FDA, to help develop basic regulatory science in support of
             translating emergent neurotechnologies to end users.
           </p>
+        </div>
         </div>
       </section>
     </div>
