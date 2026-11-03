@@ -14,21 +14,12 @@ export default function JoinClient() {
   };
 
   return (
-    <div className="min-h-screen bg-white py-10 sm:py-12 lg:py-16">
-      <div className="container mx-auto max-w-6xl px-6 sm:px-8">
+    <div className="bg-white py-12 md:py-16">
+      <div className="shell">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
-          <div className="space-y-6 lg:sticky lg:top-24">
-            <div>
-              <span className="block text-xs font-bold uppercase tracking-widest text-[var(--deep-teal)] mb-4">
-                Partnerships
-              </span>
-              <h1 className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-[var(--midnight-blue)]">
-                Join The BRAIN Center!
-              </h1>
-            </div>
-
-            <div className="space-y-6 text-sm sm:text-base leading-relaxed text-slate-700 max-w-xl">
+          <div className="space-y-6">
+            <div className="space-y-6 text-sm sm:text-base leading-relaxed text-slate-700 max-w-[65ch]">
               <p>
                 Industry partners play a key role in the BRAIN Center&apos;s mission to
                 develop safe, effective, and affordable personalized
