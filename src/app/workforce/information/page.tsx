@@ -20,8 +20,8 @@ export default function WorkforcePage() {
       />
 
       {/* Content */}
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 space-y-12">
+      <section className="py-12 md:py-16">
+        <div className="shell space-y-12">
 
           {/* Goals */}
           <section>

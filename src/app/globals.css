@@ -56,12 +56,22 @@
   --font-mono: var(--font-mono);
 }
 
+/* The one page container. Header, PageHeader, every body section and the
+   footer use it so the left edge lines up at every width. Full-bleed bands are
+   a full-width <section> with .shell inside, never a w-screen trick. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
 @layer utilities {
   /* base section spacing + full width */
   .section { @apply w-full py-12; }
-
-  /* centered readable column */
-  .container { @apply mx-auto max-w-6xl px-6; }
 
   /* Hero scrim over the background video. Opacity comes from --scrim-opacity,
      set by BrainVideo.tsx. Uses --midnight-blue so the scrim tracks the brand
@@ -74,9 +84,6 @@
        if the brand navy moves. */
     background-color: rgba(2, 17, 27, var(--scrim-opacity, 0.75));
   }
-
-  /* full-bleed band without mobile overflow */
-  .full-bleed { @apply md:relative md:left-1/2 md:right-1/2 md:-mx-[50vw] md:w-screen; }
 }
 
 @media (prefers-color-scheme: dark) {

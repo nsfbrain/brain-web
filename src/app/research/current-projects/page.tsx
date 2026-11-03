@@ -29,7 +29,7 @@ export default function CurrentProjectsPage() {
           </>
         }
       />
-      <section className="mx-auto max-w-5xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         {/* Content */}
         {currentProjects.length === 0 ? (
           <p className="text-sm text-slate-600">

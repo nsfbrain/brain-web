@@ -45,8 +45,8 @@ export default function IABPage() {
         description="The Industry Advisory Board (IAB) provides strategic guidance, sets research priorities, and connects the BRAIN Center's work to industry needs across the neurotechnology sector."
       />
 
-      <section className="py-16 sm:py-20 lg:py-24">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           <div className="flex flex-col gap-10">
             {iabMembers.map((member) => (
               <article

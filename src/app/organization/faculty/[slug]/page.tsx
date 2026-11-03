@@ -101,7 +101,7 @@ export default async function FacultyProfilePage({ params }: Props) {
         className="border-b border-slate-200"
         style={{ background: "linear-gradient(160deg, var(--light-slate) 0%, #ffffff 65%)" }}
       >
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 py-14 sm:py-20">
+        <div className="shell py-12 md:py-16">
 
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-8">
@@ -258,8 +258,8 @@ export default async function FacultyProfilePage({ params }: Props) {
       </section>
 
       {/* ── Content body ─────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           {/*
             Three-column grid mirrors the hero layout:
               col-1 = spacer (matches portrait width)

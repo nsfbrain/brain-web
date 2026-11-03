@@ -107,14 +107,14 @@ export default function CatalystsPage() {
         }
       />
 
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 space-y-12">
+      <section className="py-12 md:py-16">
+        <div className="shell space-y-12">
 
           <section>
             <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
               What Does &quot;Catalyst&quot; Mean at BRAIN?
             </h2>
-            <p className="mt-2 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-600">
+            <p className="mt-2 max-w-[65ch] text-sm sm:text-base leading-relaxed text-slate-600">
               Catalysts are industry and agency members who collaborate with faculty to co-define
               research priorities, pool resources, and guide a balanced portfolio of projects. This
               pre-competitive environment de-risks early R&D and moves promising ideas toward

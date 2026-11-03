@@ -326,8 +326,8 @@ export default function QAPage() {
         title="FAQ"
         description="Answers to questions about the NSF IUCRC BRAIN Center, including membership, benefits, intellectual property, and Industry Advisory Board responsibilities."
       />
-      <section className="py-10 sm:py-12 lg:py-16">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           {faqs.map((item, i) => (
             <div
               key={item.index}
@@ -342,7 +342,7 @@ export default function QAPage() {
                 </h2>
               </div>
               <div aria-hidden="true" className="h-0.5 w-12 rounded-full mb-5 bg-[var(--deep-teal)]" />
-              <div className="max-w-3xl text-sm sm:text-base leading-relaxed text-slate-600 space-y-3">
+              <div className="max-w-[65ch] text-sm sm:text-base leading-relaxed text-slate-600 space-y-3">
                 {item.body}
               </div>
             </div>

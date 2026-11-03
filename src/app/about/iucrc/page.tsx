@@ -28,7 +28,7 @@ export default function IucrcPage() {
       />
 
       {/* MISSION: Editorial Layout */}
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-10 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-5">
             <h2 className="text-3xl font-bold text-[var(--midnight-blue)] mb-6">
@@ -89,12 +89,12 @@ export default function IucrcPage() {
 
       {/* STRUCTURE: Full Bleed Background Band */}
       {/* Wrapper padding updated to py-10 sm:py-12 lg:py-16 */}
-      <section className="bg-[var(--midnight-blue)] text-white py-10 sm:py-12 lg:py-16 relative overflow-hidden">
+      <section className="bg-[var(--midnight-blue)] text-white py-16 md:py-24 relative overflow-hidden">
         {/* Subtle gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
         
         {/* Inner padding updated to px-6 sm:px-8 */}
-        <div className="mx-auto max-w-4xl px-6 sm:px-8 text-center relative z-10">
+        <div className="shell text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white">
             Program Structure
           </h2>
@@ -141,7 +141,7 @@ export default function IucrcPage() {
       </section>
 
       {/* DIAGRAM: Clean & Centered */}
-      <section className="mx-auto max-w-5xl px-6 sm:px-8 py-10 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <div className="text-center mb-12">
            <span className="text-[var(--deep-teal)] font-bold tracking-widest uppercase text-xs mb-3 block">
             Visualizing the Ecosystem

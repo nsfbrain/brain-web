@@ -19,7 +19,7 @@ export default function NewsPage() {
         title="News"
         description="Recent announcements, highlights, and stories from the BRAIN Center."
       />
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <NewsGrid items={sortedNewsItems} />
       </section>
     </div>

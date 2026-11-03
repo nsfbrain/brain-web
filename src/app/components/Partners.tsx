@@ -22,7 +22,7 @@ const GROUP_ENTRIES = Object.entries(GROUPS) as [SiteCategory, LogoGroup][];
 export default function Partners() {
   return (
     <section className="bg-white py-12 md:py-16">
-      <div className="mx-auto max-w-6xl px-6 text-center sm:px-8">
+      <div className="shell text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--teal-ink)] mb-2">
           Our Network
         </p>

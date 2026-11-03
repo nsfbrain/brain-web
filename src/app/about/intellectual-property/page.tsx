@@ -167,8 +167,8 @@ export default function IntellectualPropertyPage() {
         title="Intellectual Property"
         description="An overview of the invention disclosure and licensing process for BRAIN Center investigators and Industry Advisory Board member companies."
       />
-      <section className="py-10 sm:py-12 lg:py-16">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           {steps.map((step, i) => (
             <div
               key={step.index}
@@ -188,7 +188,7 @@ export default function IntellectualPropertyPage() {
               </div>
 
               {/* Content */}
-              <div className="flex-1 min-w-0 max-w-3xl">
+              <div className="flex-1 min-w-0 max-w-[65ch]">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-[var(--light-slate)] text-[var(--deep-teal)]">
                     {step.icon}

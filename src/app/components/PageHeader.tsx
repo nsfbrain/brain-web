@@ -10,7 +10,7 @@ interface PageHeaderProps {
 export default function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
   return (
     <section className="bg-[var(--light-slate)] border-b border-slate-200">
-      <div className="mx-auto max-w-6xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <div className="shell py-10 md:py-14">
         {eyebrow && (
           <span className="block text-xs font-bold uppercase tracking-widest text-[var(--deep-teal)] mb-3">
             {eyebrow}
@@ -20,7 +20,7 @@ export default function PageHeader({ eyebrow, title, description }: PageHeaderPr
           {title}
         </h1>
         {description && (
-          <div className="mt-4 max-w-3xl text-sm sm:text-base text-slate-800 leading-relaxed">
+          <div className="mt-4 max-w-[65ch] text-sm sm:text-base text-slate-800 leading-relaxed">
             {description}
           </div>
         )}

@@ -23,7 +23,7 @@ const MembershipSection: FC<MembershipSectionProps> = ({ tier, members }) => {
           {meta.label}
         </h2>
         {meta.description && (
-          <p className="mt-1 max-w-2xl text-sm text-slate-600">
+          <p className="mt-1 max-w-[65ch] text-sm text-slate-600">
             {meta.description}
           </p>
         )}
