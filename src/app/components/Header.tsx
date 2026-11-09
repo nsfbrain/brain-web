@@ -97,8 +97,8 @@ function LogoGroup() {
       <Image
         src="/brain-center.png"
         alt="BRAIN, Building Reliable Advances and Innovations in Neurotechnology"
-        width={280}
-        height={56}
+        width={470}
+        height={137}
         priority
         className="h-[36px] xl:h-[44px] w-auto object-contain"
       />
