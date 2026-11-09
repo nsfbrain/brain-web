@@ -135,7 +135,8 @@ function groupIsCurrent(pathname: string, group: NavGroup) {
   return subs.some((sub) => isCurrent(pathname, sub.href));
 }
 
-const NAV: NavItem[] = [
+// Donate is a button, not a nav link, so it is rendered separately.
+const MAIN_NAV: NavItem[] = [
   {
     label: "About",
     items: [
@@ -226,7 +227,6 @@ const NAV: NavItem[] = [
   },
   { label: "News", href: "/news" },
   { label: "Events", href: "/events" },
-  { label: "Donate", href: "/donate" },
 ];
 
 const focusRing =
@@ -239,6 +239,9 @@ const panelLinkFocus =
 // 2px rule under the top-level link for the current page. Dropdown buttons stay plain on purpose.
 const currentUnderline =
   "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-0.5 after:bg-[var(--deep-teal)]";
+
+// One Donate button shared by the desktop nav and the mobile menu so the two cannot drift.
+const donateButton = `inline-flex items-center justify-center rounded-md bg-teal-ink px-5 text-sm font-semibold text-white hover:bg-teal-ink-hover motion-safe:transition-colors ${focusRing}`;
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -379,7 +382,7 @@ export default function Header() {
           }}
         >
           <ul className="flex items-center gap-7 h-full text-sm font-medium">
-              {NAV.filter((item) => item.label !== "Donate").map((item) => (
+              {MAIN_NAV.map((item) => (
                 <li
                   key={item.label}
                   className="relative h-full flex items-center"
@@ -527,7 +530,7 @@ export default function Header() {
             <li>
               <Link
                 href="/donate"
-                className="bg-[var(--teal-ink)] hover:bg-teal-ink-hover text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-lg"
+                className={`${donateButton} h-10`}
                 onPointerEnter={(e) => e.pointerType === "mouse" && closeDropdown()}
               >
                 Donate
@@ -539,8 +542,17 @@ export default function Header() {
 
       {mobileOpen && (
         <nav id="mobile-nav" aria-label="Primary" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
-          <ul className="shell flex flex-col py-6 pb-8">
-            {NAV.map((item) => (
+          <div className="shell pt-6">
+            <Link
+              href="/donate"
+              className={`${donateButton} min-h-11 w-full sm:w-auto sm:px-8`}
+              onClick={() => setMobileOpen(false)}
+            >
+              Donate
+            </Link>
+          </div>
+          <ul className="shell flex flex-col pt-4 pb-8">
+            {MAIN_NAV.map((item) => (
               <li
                 key={item.label}
                 className="border-b border-white/5 last:border-0 sm:max-w-md"
@@ -615,7 +627,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${item.label === "Donate" ? "text-[var(--luminous-mint)] mt-2" : isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/90"}`}
+                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/90"}`}
                     aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                     onClick={() => setMobileOpen(false)}
                     target={isExternal(item.href) ? "_blank" : undefined}
