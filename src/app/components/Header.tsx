@@ -130,11 +130,6 @@ function isCurrent(pathname: string, href: string) {
   return !isExternal(href) && pathname === href;
 }
 
-function groupIsCurrent(pathname: string, group: NavGroup) {
-  const subs = group.sections ? group.sections.flatMap((s) => s.items) : (group.items ?? []);
-  return subs.some((sub) => isCurrent(pathname, sub.href));
-}
-
 // Donate is a button, not a nav link, so it is rendered separately.
 const MAIN_NAV: NavItem[] = [
   {
@@ -235,10 +230,6 @@ const focusRing =
 // Inside a dropdown panel the ring sits inside the link so the panel edge does not clip it.
 const panelLinkFocus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--luminous-mint)]";
-
-// 2px rule under the top-level link for the current page. Dropdown buttons stay plain on purpose.
-const currentUnderline =
-  "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-0.5 after:bg-[var(--deep-teal)]";
 
 // One Donate button shared by the desktop nav and the mobile menu so the two cannot drift.
 const donateButton = `inline-flex items-center justify-center rounded-md bg-teal-ink px-5 text-sm font-semibold text-white hover:bg-teal-ink-hover motion-safe:transition-colors ${focusRing}`;
@@ -467,7 +458,7 @@ export default function Header() {
                         rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
                         onClick={closeDropdown}
                       >
-                        <span className={`relative text-white/90 group-hover:text-[var(--luminous-mint)] ${isCurrent(pathname, item.href) ? currentUnderline : ""}`}>
+                        <span className="text-white/90 group-hover:text-[var(--luminous-mint)]">
                           {item.label}
                         </span>
                         {isExternal(item.href) && (
@@ -513,7 +504,6 @@ export default function Header() {
                   <details
                     name="mobile-nav-group"
                     className="group"
-                    open={groupIsCurrent(pathname, item)}
                     onToggle={(e) => {
                       if (e.currentTarget.open) e.currentTarget.scrollIntoView({ block: "nearest" });
                     }}
@@ -579,7 +569,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/90"}`}
+                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)]" : "text-white/90"}`}
                     aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                     onClick={() => setMobileOpen(false)}
                     target={isExternal(item.href) ? "_blank" : undefined}
