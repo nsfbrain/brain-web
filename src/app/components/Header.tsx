@@ -250,33 +250,11 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
-  // The dropdown a mouse hover just opened, so the click that follows does not close it again.
-  const hoverOpened = useRef<string | null>(null);
-  // Short delay before a dropdown closes when the mouse leaves the nav, so a slip off the edge is forgiven.
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  // The click guard above only lasts a moment, so a deliberate click later still toggles the menu.
-  const guardTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  useEffect(
-    () => () => {
-      clearTimeout(closeTimer.current);
-      clearTimeout(guardTimer.current);
-    },
-    [],
-  );
-
-  function armClickGuard(label: string) {
-    hoverOpened.current = label;
-    clearTimeout(guardTimer.current);
-    guardTimer.current = setTimeout(() => {
-      hoverOpened.current = null;
-    }, 300);
-  }
 
   // Close the open dropdown. If keyboard focus is inside it, move focus to its button first so it is not lost.
   function closeDropdown() {
     const trigger = navRef.current?.querySelector<HTMLElement>('[aria-expanded="true"]');
     if (trigger?.closest("li")?.contains(document.activeElement)) trigger.focus();
-    hoverOpened.current = null;
     setOpenMenu(null);
   }
 
@@ -305,10 +283,7 @@ export default function Header() {
   useEffect(() => {
     if (openMenu === null) return;
     function onPointerDown(e: PointerEvent) {
-      if (!navRef.current?.contains(e.target as Node)) {
-        hoverOpened.current = null;
-        setOpenMenu(null);
-      }
+      if (!navRef.current?.contains(e.target as Node)) setOpenMenu(null);
     }
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
@@ -321,7 +296,6 @@ export default function Header() {
     const desktop = window.matchMedia("(min-width: 80rem)");
     const onChange = () => {
       const focusInHeader = headerRef.current?.contains(document.activeElement);
-      hoverOpened.current = null;
       setOpenMenu(null);
       if (desktop.matches) setMobileOpen(false);
       if (focusInHeader) {
@@ -372,15 +346,7 @@ export default function Header() {
           {mobileOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
-        <nav
-          ref={navRef}
-          aria-label="Primary"
-          className="hidden xl:block h-full"
-          onMouseEnter={() => clearTimeout(closeTimer.current)}
-          onMouseLeave={() => {
-            closeTimer.current = setTimeout(closeDropdown, 150);
-          }}
-        >
+        <nav ref={navRef} aria-label="Primary" className="hidden xl:block h-full">
           <ul className="flex items-center gap-7 h-full text-sm font-medium">
               {MAIN_NAV.map((item) => (
                 <li
@@ -399,20 +365,7 @@ export default function Header() {
                         className="-mx-2 flex min-h-11 items-center gap-1 px-2 py-2 group motion-safe:transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
                         aria-expanded={openMenu === item.label}
                         aria-controls={`nav-menu-${item.label.toLowerCase()}`}
-                        onPointerEnter={(e) => {
-                          if (e.pointerType !== "mouse") return;
-                          // Only a hover that opens the menu arms the click guard, not a re-entry onto an open one.
-                          if (openMenu !== item.label) armClickGuard(item.label);
-                          setOpenMenu(item.label);
-                        }}
-                        onClick={(e) => {
-                          // detail is 0 for a keyboard-triggered click, which the guard never applies to.
-                          if (e.detail !== 0 && hoverOpened.current === item.label) {
-                            hoverOpened.current = null;
-                            return;
-                          }
-                          setOpenMenu((v) => (v === item.label ? null : item.label));
-                        }}
+                        onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
                       >
                         <span
                           className={
@@ -444,7 +397,6 @@ export default function Header() {
                         }`}
                         // A closed panel is inert so Tab cannot land in it while it fades out.
                         inert={openMenu !== item.label}
-                        onMouseEnter={() => setOpenMenu(item.label)}
                       >
                         {item.sections ? (
                           <div>
@@ -513,7 +465,7 @@ export default function Header() {
                         aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                         target={isExternal(item.href) ? "_blank" : undefined}
                         rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
-                        onPointerEnter={(e) => e.pointerType === "mouse" && closeDropdown()}
+                        onClick={closeDropdown}
                       >
                         <span className={`relative text-white/90 group-hover:text-[var(--luminous-mint)] ${isCurrent(pathname, item.href) ? currentUnderline : ""}`}>
                           {item.label}
@@ -531,7 +483,7 @@ export default function Header() {
               <Link
                 href="/donate"
                 className={`${donateButton} h-10`}
-                onPointerEnter={(e) => e.pointerType === "mouse" && closeDropdown()}
+                onClick={closeDropdown}
               >
                 Donate
               </Link>
