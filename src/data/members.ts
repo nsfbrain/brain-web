@@ -121,9 +121,24 @@ export const members: MemberOrg[] = [
     logoSrc: "/logos/members/voxel-systems.png",
     website: "https://www.voxelsystems.com/",
     tier: "associate",
-    alt: "Voxel Systems Logo"
+    alt: "Voxel Systems logo",
   },
-
+  {
+    id: "black-horse-health",
+    name: "Black Horse Health",
+    logoSrc: "/logos/members/black-horse-health.webp",
+    website: "https://blackhorsehealth.com/locations/houston/",
+    tier: "associate",
+    alt: "Black Horse Health logo",
+  },
+  {
+    id: "myna-voice-labs",
+    name: "Myna Voice Labs",
+    logoSrc: "/logos/members/myna-voice-labs.png",
+    website: "https://mynapd.com/",
+    tier: "associate",
+    alt: "Myna Voice Labs logo",
+  },
   {
     id: "ferguson-in-kind",
     name: "Ferguson Control Systems",
@@ -141,12 +156,12 @@ export const members: MemberOrg[] = [
     alt: "Cognixion logo",
   },
   {
-    id: "galen-data",
-    name: "Galen Data",
+    id: "matrix-one",
+    name: "Matrix One",
     logoSrc: "/logos/members/matrix-one.svg",
-    website: "https://www.galendata.com/",
+    website: "https://matrixone.health/",
     tier: "in-kind",
-    alt: "Galen Data logo",
+    alt: "Matrix One logo",
   },
   {
     id: "myactome",

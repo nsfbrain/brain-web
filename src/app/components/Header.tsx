@@ -146,8 +146,7 @@ const MAIN_NAV: NavItem[] = [
     label: "Research",
     items: [
       { label: "Thrusts", href: "/research/thrusts" },
-      { label: "Current Projects", href: "/research/current-projects" },
-      { label: "Past Projects", href: "/research/past-projects" },
+      { label: "Example Projects", href: "/research/example-projects" },
       { label: "Facilities", href: "/research/facilities" },
     ],
   },

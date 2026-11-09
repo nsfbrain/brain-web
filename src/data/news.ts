@@ -3,16 +3,82 @@
 export type NewsItem = {
   slug: string;
   title: string;
-  date: string;       // ISO string for sorting: "2025-11-10"
+  date: string;       // ISO string for sorting: "2025-11-10" (first day for a multi-day event)
+  endDate?: string;   // ISO last day of a multi-day event, used to decide when "Upcoming" ends
   dateLabel: string;  // Pretty: "Nov 10, 2025"
   summary: string;
   imageSrc: string;
   imageAlt: string;
-  content: string;    // full article text
-  href?: string;      // external link override; falls back to /news/[slug]
+  content: string;    // full article text, paragraphs separated by blank lines
+  href?: string;      // external link; the card opens it instead of an article page
+  page?: boolean;     // true: the item has its own article page at /news/[slug]
+  links?: { label: string; href: string }[]; // related links shown on the article page
+  imagePosition?: string; // CSS object-position for the card crop, e.g. "50% 20%" to keep a face in frame
+  upcoming?: boolean; // derived in sortedNewsItems, never set by hand
 };
 
+// Upcoming lasts until the end of the event's last day, Central time (-06:00, a fixed offset is close enough).
+// Static build: this is decided when the site is built, so redeploy after an event to clear the tag.
+const isUpcoming = (item: NewsItem) =>
+  new Date(`${item.endDate ?? item.date}T23:59:59-06:00`).getTime() > Date.now();
+
 export const newsItems: NewsItem[] = [
+  {
+    slug: "brain-center-at-aaai-2027",
+    title: "IUCRC BRAIN Center at AAAI 2027",
+    date: "2027-02-22",
+    endDate: "2027-02-23",
+    dateLabel: "Feb 22–23, 2027",
+    summary:
+      "Center Director José Luis Contreras-Vidal is co-organizing the Workshop on Creative AI for Live Interactive Performances (CLIP) at the AAAI 2027 Annual Meeting.",
+    page: true,
+    imageSrc: "/news/brain-center-at-aaai-2027.jpg",
+    imageAlt: "Call for Papers graphic showing dancers and musicians performing in front of a city skyline",
+    links: [
+      { label: "CLIP workshop website", href: "https://sites.google.com/view/clip27" },
+    ],
+    content: `
+Center Director Pepe Contreras-Vidal is co-organizing a Workshop on Creative AI for Live Interactive Performances (CLIP) at the 2027 Association for the Advancement of Artificial Intelligence (AAAI) Annual Meeting.
+    `,
+  },
+  {
+    slug: "nabrzyski-aimbe-public-policy-institute",
+    title: "BRAIN Graduate Student Piotr Nabrzyski Wins Fellowship to Attend the AIMBE Public Policy Institute",
+    date: "2026-10-15",
+    endDate: "2026-10-16",
+    dateLabel: "Oct 15–16, 2026",
+    summary:
+      "The fellowship takes Piotr Nabrzyski to Washington, DC to learn from policy insiders how public policy shapes biomedical engineering.",
+    page: true,
+    imageSrc: "/news/nabrzyski-aimbe-public-policy-institute.jpg",
+    imageAlt: "Portrait of BRAIN graduate student Piotr Nabrzyski",
+    imagePosition: "50% 20%",
+    links: [
+      { label: "AIMBE Public Policy Institute", href: "https://aimbe.org/institute/" },
+    ],
+    content: `
+BRAIN graduate student Piotr Nabrzyski won a fellowship to attend the AIMBE Public Policy Institute in Washington, DC, to learn from Washington insiders about how public policy impacts biomedical engineering.
+
+Speakers include policy experts, members of government agencies such as the FDA and NIH, industry innovators, and government decision-makers.
+    `,
+  },
+  {
+    slug: "il-cervello-va-in-scena",
+    title: "BRAIN Center Brings Art-Science Performances to Florence, Italy",
+    date: "2026-06-06",
+    dateLabel: "Jun 6, 2026",
+    summary:
+      "\"Il Cervello va in Scena\" at the Niccolini Theater showed how meditation, music and movement affect brain health, with the NSF Movement, Music, and Brain Health AccelNet and EBRAINS.",
+    page: true,
+    imageSrc: "/news/il-cervello-va-in-scena.jpg",
+    imageAlt:
+      "Presenters on stage at the Niccolini Theater in Florence in front of a screen reading \"Il Cervello va in Scena\"",
+    content: `
+The IUCRC BRAIN Center partnered with the NSF Movement, Music, and Brain Health AccelNet and E.U. EBRAINS to bring the "Il Cervello va in Scena" art-science performances to the Niccolini Theater in Florence, Italy. The performances demonstrate the power of meditation, music and movement on brain health and mental health.
+
+The event was a collaboration with Prof. Francesco Pavone of the University of Florence, Director of the Italian Node of EBRAINS.
+    `,
+  },
   {
     slug: "contreras-vidal-nature-brain",
     title: "University of Houston BRAIN Center Finds Exposure to Nature Associated with Reductions in Negative Emotions",
@@ -97,7 +163,11 @@ Sessions highlighted new device prototypes, clinical studies, and big data tools
   },
 ];
 
-// Helper: newest first
-export const sortedNewsItems: NewsItem[] = [...newsItems].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
+// Helper: newest first. Items with their own page link to it unless they set an external href.
+export const sortedNewsItems: NewsItem[] = newsItems
+  .map((item) => ({
+    ...item,
+    href: item.href ?? (item.page ? `/news/${item.slug}` : undefined),
+    upcoming: isUpcoming(item),
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

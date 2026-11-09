@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllFacultyProfileSlugs } from "@/lib/faculty-profile";
+import { newsItems } from "@/data/news";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://www.nsfbrain.org";
@@ -10,6 +11,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly",
     priority: 0.7,
   }));
+
+  const newsArticleUrls: MetadataRoute.Sitemap = newsItems
+    .filter((item) => item.page)
+    .map((item) => ({
+      url: `${base}/news/${item.slug}`,
+      changeFrequency: "yearly",
+      priority: 0.5,
+    }));
 
   return [
     // Homepage
@@ -61,9 +70,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/publications`, changeFrequency: "monthly", priority: 0.8 },
 
     // Research
-    { url: `${base}/research/current-projects`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/research/facilities`, changeFrequency: "yearly", priority: 0.6 },
-    { url: `${base}/research/past-projects`, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${base}/research/example-projects`, changeFrequency: "yearly", priority: 0.6 },
     { url: `${base}/research/thrusts`, changeFrequency: "yearly", priority: 0.8 },
 
     // Workforce
@@ -74,5 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Faculty profile pages (populated once feat/faculty-slug-pages is merged)
     ...facultyProfileUrls,
+    ...newsArticleUrls,
   ];
 }

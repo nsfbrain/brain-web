@@ -52,6 +52,8 @@ export function NewsWidget() {
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
                   href={item.href}
+                  upcoming={item.upcoming}
+                  imagePosition={item.imagePosition}
                   aspectRatio="16/9"
                 />
               );

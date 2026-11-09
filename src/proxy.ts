@@ -16,6 +16,7 @@ const GONE_PATTERNS = [
   /^\/wp-/, // WordPress paths like /wp-content/, /wp-admin/
   /^\/xmlrpc\.php/, // WordPress XML-RPC endpoint
   /^\/organization\/careers$/, // retired route; was in the sitemap, so Google has it indexed
+  /^\/research\/current-projects$/, // retired: projects cannot be disclosed; was in the sitemap
 ];
 
 export function proxy(request: NextRequest) {

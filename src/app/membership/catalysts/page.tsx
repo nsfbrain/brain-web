@@ -74,7 +74,7 @@ const engagements = [
       </svg>
     ),
     body: "Review proposals, vote on project selection, and provide technical feedback at go/no-go checkpoints.",
-    link: { label: "See current projects", href: "/research/current-projects" },
+    link: { label: "See example projects", href: "/research/example-projects" },
   },
   {
     index: "03",
