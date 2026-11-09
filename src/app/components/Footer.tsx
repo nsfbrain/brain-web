@@ -1,13 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
 
+// Listed column by column: the first three are ways to get involved, the last three are ways to stay informed.
+// Faculty and FAQ stay reachable from the main menu.
 const links = [
+  { label: "Join", href: "/join" },
+  { label: "Member benefits", href: "/membership/benefits" },
+  { label: "Donate", href: "/donate" },
   { label: "News", href: "/news" },
   { label: "Events", href: "/events" },
   { label: "Publications", href: "/publications" },
-  { label: "Faculty", href: "/organization/faculty" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Join", href: "/join" },
-  { label: "Donate", href: "/donate" },
 ];
 
 export default function Footer() {
@@ -30,7 +32,7 @@ export default function Footer() {
           {/* Quick Links */}
           <nav aria-label="Quick links">
             <h2 className="text-sm font-bold tracking-wide uppercase">Quick Links</h2>
-            <ul className="mt-3 space-y-2 text-sm text-white/70">
+            <ul className="mt-3 grid grid-flow-col grid-rows-3 gap-x-8 gap-y-2 text-sm text-white/70">
               {links.map((l) => (
                 <li key={l.label}>
                   <Link
@@ -89,10 +91,28 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
+      {/* Bottom bar: NSF acknowledgment and disclaimer (NSF wording, PAPPG 24-1 Chapter XI.E.4) on the left, copyright on the right */}
       <div className="border-t border-white/10">
-        <div className="shell py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-white/60">
-          <p>© {new Date().getFullYear()} BRAIN Center. All rights reserved.</p>
+        <div className="shell py-4 pb-24 md:pb-4 flex flex-col md:flex-row items-start justify-between gap-4 text-sm">
+          {/* Full-color seal, no filter or opacity. The text beside it names the agency, so the alt is empty. */}
+          <div className="flex flex-col items-start gap-3 text-white/70 md:max-w-3xl md:flex-row md:items-center">
+            <Image src="/nsf-logo.png" alt="" width={40} height={40} className="h-10 w-10 shrink-0" />
+            <p className="leading-relaxed">
+              This material is based upon work supported by the U.S. National Science Foundation
+              under Award No.{" "}
+              <a
+                href="https://www.nsf.gov/awardsearch/show-award?AWD_ID=2137255"
+                className="rounded-md underline underline-offset-2 transition-colors hover:text-[var(--luminous-mint)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)]"
+              >
+                2137255
+              </a>
+              . Any opinions, findings and conclusions or recommendations expressed in this
+              material are those of the author(s) and do not necessarily reflect the views of the
+              U.S. National Science Foundation.
+            </p>
+          </div>
+          {/* The right margin keeps the text clear of the floating scroll-to-top button. */}
+          <p className="text-white/60 md:mr-16 md:shrink-0">© {new Date().getFullYear()} BRAIN Center. All rights reserved.</p>
         </div>
       </div>
     </footer>

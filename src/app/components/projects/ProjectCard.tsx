@@ -5,7 +5,6 @@ import Link from "next/link";
 export type ProjectCardProps = {
   title: string;
   leaders: string;
-  year?: number;
   imageSrc?: string;
   imageAlt?: string;
   href?: string; // if present, card becomes clickable
@@ -14,7 +13,6 @@ export type ProjectCardProps = {
 export default function ProjectCard({
   title,
   leaders,
-  year,
   imageSrc,
   imageAlt,
   href,
@@ -34,23 +32,18 @@ export default function ProjectCard({
       )}
 
       <div className="flex flex-1 flex-col">
-        <h3 className="text-sm font-semibold text-slate-900 sm:text-base">
+        <h2 className="text-base font-semibold text-slate-900">
           {title}
-        </h3>
-        <p className="mt-1 text-xs text-slate-700 sm:text-sm">
+        </h2>
+        <p className="mt-1 text-sm text-slate-700">
           <span className="font-semibold text-slate-900">Project Leaders:</span>{" "}
           {leaders}
         </p>
-        {year && (
-          <p className="mt-1 text-[11px] uppercase tracking-wide text-slate-500">
-            Funded in {year}
-          </p>
-        )}
 
         {/* Only show “View details →” if this project has a link */}
         {href && (
-          <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[var(--deep-teal)]">
-            View details <span className="transition group-hover:translate-x-0.5">→</span>
+          <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-teal-ink">
+            View details <span className="motion-safe:transition-transform group-hover:translate-x-0.5">→</span>
           </span>
         )}
       </div>
@@ -58,9 +51,9 @@ export default function ProjectCard({
   );
 
   const baseClasses =
-    "group h-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md";
+    "group h-full rounded-xl border border-slate-200 bg-white p-5 motion-safe:transition-shadow motion-safe:duration-150 hover:shadow-md";
   const linkedClasses = href
-    ? " cursor-pointer hover:border-teal-500"
+    ? " cursor-pointer hover:border-teal-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-ink focus-visible:ring-offset-2"
     : " cursor-default";
 
   // If href exists, wrap in <Link>; otherwise just a div
