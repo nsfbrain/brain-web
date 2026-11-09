@@ -473,7 +473,7 @@ export default function Header() {
             <li>
               <Link
                 href="/donate"
-                className={`${donateButton} h-10`}
+                className={`${donateButton} h-11`}
                 onClick={closeDropdown}
               >
                 Donate
