@@ -88,17 +88,17 @@ export default function IucrcPage() {
       </section>
 
       {/* STRUCTURE: Full Bleed Background Band */}
-      {/* Wrapper padding updated to py-10 sm:py-12 lg:py-16 */}
+      {/* Emphasis band: py-16 md:py-24 */}
       <section className="bg-[var(--midnight-blue)] text-white py-16 md:py-24 relative overflow-hidden">
         {/* Subtle gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
         
-        {/* Inner padding updated to px-6 sm:px-8 */}
+        {/* .shell supplies the max width and horizontal padding */}
         <div className="shell text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white">
             Program Structure
           </h2>
-          <div className="prose prose-lg prose-invert mx-auto opacity-90 leading-relaxed">
+          <div className="mx-auto max-w-[65ch] text-left opacity-90 leading-relaxed">
             <p className="mb-6">
               Each IUCRC operates as a consortium of academic sites and member
               organizations that collectively fund and guide a portfolio of
