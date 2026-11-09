@@ -106,7 +106,7 @@ export default function Footer() {
               >
                 2137255
               </a>
-              . Any opinions, findings, and conclusions or recommendations expressed in this
+              . Any opinions, findings and conclusions or recommendations expressed in this
               material are those of the author(s) and do not necessarily reflect the views of the
               U.S. National Science Foundation.
             </p>
