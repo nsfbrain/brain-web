@@ -81,7 +81,7 @@ function LogoGroup() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded group"
+      className="flex items-center gap-[16px] xl:gap-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded group"
     >
       <Image
         src="/brain-center.png"
@@ -89,29 +89,18 @@ function LogoGroup() {
         width={280}
         height={56}
         priority
-        className="h-12 w-auto object-contain"
+        className="h-[36px] xl:h-[44px] w-auto object-contain"
       />
 
-      {/* Divider and NSF Lockup */}
-      <div className="flex items-center gap-4 border-l border-white/30 pl-6 py-1">
-        <Image
-          src="/nsf-logo.png"
-          alt="U.S. National Science Foundation"
-          width={48}
-          height={48}
-          className="h-12 w-auto object-contain"
-        />
-
-        {/* The seal's alt text already names the agency, so hide this label from screen readers. */}
-        <div aria-hidden="true" className="hidden md:block text-left leading-tight opacity-80">
-          <span className="block text-[0.65rem] uppercase tracking-widest font-semibold">
-            Supported by
-          </span>
-          <span className="block text-[0.65rem] uppercase tracking-widest font-semibold">
-            U.S. National Science Foundation
-          </span>
-        </div>
-      </div>
+      {/* Divider and NSF seal. The funding acknowledgment text lives in the footer. */}
+      <span aria-hidden="true" className="h-[32px] xl:h-[36px] w-px bg-white/25" />
+      <Image
+        src="/nsf-logo.png"
+        alt="U.S. National Science Foundation"
+        width={48}
+        height={48}
+        className="h-[36px] xl:h-[44px] w-auto object-contain"
+      />
     </Link>
   );
 }
@@ -247,32 +236,26 @@ export default function Header() {
   }, [mobileOpen]);
 
   return (
-    <header className="relative z-50 text-white bg-[var(--midnight-blue)] shadow-xl">
-      <div className="border-b border-white/10">
-        <div className="mx-auto max-w-7xl px-4">
-          <div className="flex w-full items-center justify-between py-3">
-            <LogoGroup />
+    <header className="relative z-50 text-white bg-[var(--midnight-blue)] border-b border-white/10 shadow-xl">
+      <div className="shell flex h-[calc(var(--header-h)-1px)] items-center justify-between">
+        <LogoGroup />
 
-            <button
-              className="lg:hidden rounded-md border border-white/20 p-2 text-white hover:bg-white/10"
-              aria-expanded={mobileOpen}
-              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-controls="mobile-nav"
-              onClick={() => setMobileOpen((v) => !v)}
-            >
-              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-          </div>
-        </div>
-      </div>
+        <button
+          className="xl:hidden rounded-md border border-white/20 p-2 text-white hover:bg-white/10"
+          aria-expanded={mobileOpen}
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-controls="mobile-nav"
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+        </button>
 
-      <div className="hidden lg:block border-t border-black/20 bg-black/10">
         <nav
           id="primary-nav"
-          className="mx-auto max-w-7xl px-4"
+          className="hidden xl:block h-full"
           onMouseLeave={() => setOpenMenu(null)}
         >
-          <ul className="flex items-center gap-8 h-14 text-sm font-medium">
+          <ul className="flex items-center gap-7 h-full text-sm font-medium">
               {NAV.filter((item) => item.label !== "Donate").map((item) => (
                 <li
                   key={item.label}
@@ -396,7 +379,7 @@ export default function Header() {
                 </li>
               ))}
 
-            <li className="ml-auto">
+            <li>
               <Link
                 href="/donate"
                 className="bg-[var(--teal-ink)] hover:bg-teal-ink-hover text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-lg"
@@ -409,9 +392,8 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-nav" className="lg:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100vh-73px)] overflow-y-auto">
-          {/* UPDATED: Added px-8 py-8 and gap-6 to spread links out more generously */}
-          <ul className="flex flex-col px-8 py-8 pb-20 gap-6">
+        <div id="mobile-nav" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
+          <ul className="shell flex flex-col py-8 pb-20 gap-6">
             {NAV.map((item) => (
               <li
                 key={item.label}

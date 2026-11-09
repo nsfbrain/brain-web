@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PageHeader from "@/app/components/PageHeader";
 import JoinClient from "./JoinClient";
 
 export const metadata: Metadata = {
@@ -9,5 +10,14 @@ export const metadata: Metadata = {
 };
 
 export default function JoinPage() {
-  return <JoinClient />;
+  return (
+    <>
+      <PageHeader
+        eyebrow="Membership"
+        title="Join"
+        description="Industry partners help the BRAIN Center develop safe, effective, and affordable neurotechnologies. Start a membership inquiry by email."
+      />
+      <JoinClient />
+    </>
+  );
 }

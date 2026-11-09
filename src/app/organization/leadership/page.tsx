@@ -66,8 +66,8 @@ export default function LeadershipPage() {
         description="Meet the directors, investigators, and staff leading the BRAIN Center across its partner institutions."
       />
 
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8 space-y-12">
+      <section className="py-12 md:py-16">
+        <div className="shell space-y-12">
           <section>
             <h2 className="text-2xl font-semibold tracking-tight text-slate-900 mb-6">
               Center Directors

@@ -164,7 +164,7 @@ export default function FacilitiesPage() {
         title="Facilities, Equipment & Software"
         description="Laboratories and shared facilities across BRAIN Center partner institutions support neurotechnology research, clinical translation, and broader impacts activities."
       />
-      <section className="mx-auto max-w-6xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         {/* Research thrust matrices */}
         <div className="space-y-10">
           <ResearchThrustMatrix
@@ -197,7 +197,7 @@ export default function FacilitiesPage() {
           <h2 className="text-xl font-semibold tracking-tight text-slate-900">
             Laboratory Tours
           </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700">
+          <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-slate-700">
             Short video tours of selected laboratories are coming soon. These
             will highlight key equipment, experimental setups, and opportunities
             for collaboration and training.

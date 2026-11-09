@@ -19,7 +19,7 @@ export default function ResearchThrustsPage() {
         title="Research Thrusts"
         description="BRAIN Center research is organized into thrusts — each targeting a distinct technical challenge in developing reliable, clinically translatable neurotechnology."
       />
-      <section className="mx-auto max-w-5xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         {/* Thrust cards */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {researchThrusts.map((thrust) => (

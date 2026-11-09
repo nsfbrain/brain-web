@@ -72,7 +72,7 @@ export default function StaffPage() {
         description="Supporting the BRAIN Center's mission and day-to-day operations."
       />
 
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-10 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {staffMembers.map((person: Person) => (
             <CardRoot

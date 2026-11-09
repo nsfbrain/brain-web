@@ -13,7 +13,7 @@ const links = [
 export default function Footer() {
   return (
     <footer className="bg-[var(--midnight-blue)] text-white">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 py-8">
+      <div className="shell py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
           {/* Contact */}
           <div>
@@ -91,7 +91,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="mx-auto max-w-7xl px-6 sm:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-white/60">
+        <div className="shell py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-sm text-white/60">
           <p>© {new Date().getFullYear()} BRAIN Center. All rights reserved.</p>
         </div>
       </div>

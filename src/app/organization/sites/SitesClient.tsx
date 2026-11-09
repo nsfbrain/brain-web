@@ -96,10 +96,10 @@ function SitesMap() {
   }, []);
 
   return (
-    <section className="bg-[var(--midnight-blue)] py-10 sm:py-12 lg:py-16 relative overflow-hidden">
+    <section className="bg-[var(--midnight-blue)] py-16 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--midnight-blue)] via-[#0B2336] to-[var(--midnight-blue)] pointer-events-none" />
 
-      <div className="container mx-auto px-6 sm:px-8 relative z-10 mb-8 sm:mb-12">
+      <div className="shell relative z-10 mb-8 sm:mb-12">
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             Our Global <span className="text-[var(--luminous-mint)]">Neuro-Network</span>

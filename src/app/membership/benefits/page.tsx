@@ -105,7 +105,7 @@ export default function BenefitsPage() {
 
       {/* Impact strip */}
       <div className="bg-[var(--midnight-blue)] border-b-2 border-[var(--deep-teal)]">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+        <div className="shell">
           <dl className="grid grid-cols-3 divide-x divide-white/10">
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col items-center py-8 text-center">
@@ -122,8 +122,8 @@ export default function BenefitsPage() {
       </div>
 
       {/* Main content */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-12">
 
             {/* Benefit sections */}

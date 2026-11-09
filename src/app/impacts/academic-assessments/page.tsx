@@ -18,9 +18,9 @@ export default function AcademicAssessmentsPage() {
       />
 
       {/* Four dimensions */}
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-2xl px-6 sm:px-8">
-          <div className="flex flex-col gap-3">
+      <section className="py-12 md:py-16">
+        <div className="shell">
+          <div className="flex flex-col gap-3 max-w-[65ch]">
             <AssessCard
               step="01"
               title="Reaction"
@@ -39,7 +39,7 @@ export default function AcademicAssessmentsPage() {
           </div>
 
           {/* Process copy */}
-          <div className="mt-10 sm:mt-12 lg:mt-14 max-w-4xl text-sm sm:text-base text-slate-900 space-y-4">
+          <div className="mt-12 max-w-[65ch] text-sm sm:text-base text-slate-900 space-y-4">
             <p>
               The Education/Outreach coordinator consolidates site data and conducts internal
               reviews semi-annually with input from the Academic Advisory Board (AAB). The AAB

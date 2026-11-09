@@ -13,7 +13,8 @@ export default function ImpactPage() {
     <div className="bg-white">
       <PageHeader eyebrow="Impacts" title="Making An Impact" description="As neurological disability rises with global aging, BRAIN Center develops neurotechnologies to restore mobility, sensation, and cognition." />
 
-      <section className="mx-auto max-w-4xl px-6 py-10 sm:px-8 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
+        <div className="max-w-[65ch]">
         {/* Opening paragraph */}
         <p className="text-base leading-relaxed text-slate-700">
           Worldwide, the number of people aged 65 and above is projected to grow
@@ -91,6 +92,7 @@ export default function ImpactPage() {
             more effective and sustainable neurotechnologies for
             society.
           </p>
+        </div>
         </div>
       </section>
     </div>

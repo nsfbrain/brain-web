@@ -20,7 +20,7 @@ export default function EventsPage() {
         title="Events"
         description="Upcoming and past seminars, workshops, conferences, and BRAIN Center activities."
       />
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <div className="space-y-16">
           <EventsPageClient events={events} />
           <CalendarEmbed />

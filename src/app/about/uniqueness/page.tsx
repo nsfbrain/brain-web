@@ -73,10 +73,10 @@ export default function UniquenessPage() {
         description="What sets the BRAIN Center apart — from clinical integration and regulatory partnerships to ethics, workforce development, and a globally connected research network."
       />
 
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-10 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
 
         {/* Lead paragraph */}
-        <div className="mb-12 max-w-3xl">
+        <div className="mb-12 max-w-[65ch]">
           <p className="text-lg md:text-xl leading-relaxed font-medium text-[var(--midnight-blue)] mb-4">
             The BRAIN Center is a Phase II U.S. National Science Foundation (NSF)–funded
             industry–university collaborative research center (IUCRC).
@@ -102,7 +102,7 @@ export default function UniquenessPage() {
               </div>
               <div>
                 <h2 className="font-bold text-[var(--midnight-blue)] mb-2">{item.title}</h2>
-                <p className="text-slate-600 text-base leading-relaxed max-w-3xl">{item.body}</p>
+                <p className="text-slate-600 text-base leading-relaxed max-w-[65ch]">{item.body}</p>
               </div>
             </div>
           ))}

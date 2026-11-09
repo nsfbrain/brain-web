@@ -23,7 +23,7 @@ export default function MembersPage() {
         title="Industry Members"
         description="Clinical, industry, and government partners collaborating with the BRAIN Center to advance and apply neurotechnology research."
       />
-      <section className="mx-auto max-w-6xl px-6 pb-16 pt-12 sm:px-8">
+      <section className="shell py-12 md:py-16">
         <div className="space-y-12">
           {orderedTiers.map((tier) => {
             const tierMembers = members.filter((m) => m.tier === tier);

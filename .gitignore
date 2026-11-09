@@ -56,3 +56,11 @@ src/data/wp-import/
 # local-only docs and Claude Code config (not for version control)
 docs/
 .claude/
+
+# contract billing records (live outside the repo, ignored in case they ever land here)
+worklog/
+entries.csv
+timesheet-*
+
+# Playwright MCP browser session files
+.playwright-mcp/

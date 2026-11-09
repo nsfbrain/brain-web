@@ -19,7 +19,7 @@ export default function MediaPage() {
         title="BRAIN Media"
         description="Explore photos, videos, and outreach materials from the BRAIN Center."
       />
-      <section className="mx-auto max-w-6xl px-6 sm:px-8 py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <MediaGrid items={mediaItems} />
       </section>
     </div>

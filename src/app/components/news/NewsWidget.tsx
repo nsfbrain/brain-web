@@ -21,7 +21,7 @@ const recent = feed.slice(0, MAX_ITEMS);
 export function NewsWidget() {
   return (
     <section className="bg-white py-12 md:py-16">
-      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
+      <div className="shell">
         <header className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[var(--midnight-blue)]">Latest news and media</h2>
           <div className="ml-auto flex items-baseline gap-5">

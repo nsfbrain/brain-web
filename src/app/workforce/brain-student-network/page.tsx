@@ -50,9 +50,9 @@ export default function StudentNetworkPage() {
       />
 
       {/* INTRO */}
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
-          <div className="max-w-4xl">
+      <section className="py-12 md:py-16">
+        <div className="shell">
+          <div className="max-w-[65ch]">
             <ul className="list-disc list-inside space-y-2 marker:text-[var(--deep-teal)] text-sm sm:text-base text-slate-900">
               <li>Foster collaboration and membership engagement across sites.</li>
               <li>Improve communication between colleges, labs, and BRAIN Center sites.</li>
@@ -65,8 +65,8 @@ export default function StudentNetworkPage() {
       </section>
 
       {/* OFFICERS (tall portrait cards) */}
-      <section className="py-4">
-        <div className="mx-auto max-w-6xl px-6 sm:px-8">
+      <section className="py-12 md:py-16">
+        <div className="shell">
           <h2 className="text-2xl font-semibold text-[var(--midnight-blue)]">
             UH BRAIN Student Officers
           </h2>

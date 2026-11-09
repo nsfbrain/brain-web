@@ -71,11 +71,11 @@ export default function DonatePage() {
         description="Help accelerate safe, reliable neurotechnology that improves quality of life."
       />
 
-      <section className="mx-auto max-w-5xl px-6 sm:px-8 py-10 sm:py-12 lg:py-16">
+      <section className="shell py-12 md:py-16">
         <h2 className="text-2xl sm:text-3xl font-bold text-[var(--midnight-blue)]">
           Why your gift matters
         </h2>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-800">
+        <p className="mt-4 max-w-[65ch] text-base leading-relaxed text-slate-800">
           The BRAIN Center brings together the University of Houston, Arizona
           State University, and partner institutions to turn interdisciplinary
           brain research into neurotechnology that&apos;s safe, reliable, and
