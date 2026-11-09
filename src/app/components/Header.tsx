@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 function isExternal(href: string) {
@@ -36,6 +37,16 @@ function ExternalArrow({ className = "w-3 h-3" }: { className?: string }) {
       <path d="M7 17L17 7" />
       <path d="M7 7h10v10" />
     </svg>
+  );
+}
+
+// Arrow for links that open in a new tab, with the same cue for screen readers.
+function ExternalMark({ className }: { className?: string }) {
+  return (
+    <>
+      <ExternalArrow className={className} />
+      <span className="sr-only"> (opens in a new tab)</span>
+    </>
   );
 }
 
@@ -81,13 +92,13 @@ function LogoGroup() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-[16px] xl:gap-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded group"
+      className="flex items-center gap-[16px] xl:gap-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
     >
       <Image
         src="/brain-center.png"
-        alt="BRAIN — Building Reliable Advances and Innovations in Neurotechnology"
-        width={280}
-        height={56}
+        alt="BRAIN, Building Reliable Advances and Innovations in Neurotechnology"
+        width={470}
+        height={137}
         priority
         className="h-[36px] xl:h-[44px] w-auto object-contain"
       />
@@ -106,7 +117,7 @@ function LogoGroup() {
 }
 
 type NavSubItem = { label: string; href: string };
-type NavSection = { heading?: string; items: NavSubItem[]; tinted?: boolean };
+type NavSection = { heading?: string; items: NavSubItem[] };
 type NavGroup = { label: string; items?: NavSubItem[]; sections?: NavSection[] };
 type NavSingle = { label: string; href: string };
 type NavItem = NavGroup | NavSingle;
@@ -115,7 +126,12 @@ function isNavGroup(item: NavItem): item is NavGroup {
   return "items" in item || "sections" in item;
 }
 
-const NAV: NavItem[] = [
+function isCurrent(pathname: string, href: string) {
+  return !isExternal(href) && pathname === href;
+}
+
+// Donate is a button, not a nav link, so it is rendered separately.
+const MAIN_NAV: NavItem[] = [
   {
     label: "About",
     items: [
@@ -184,7 +200,6 @@ const NAV: NavItem[] = [
       },
       {
         heading: "External Programs",
-        tinted: true,
         items: [
           { label: "REU Website", href: "https://reu.egr.uh.edu/overview" },
           {
@@ -207,85 +222,153 @@ const NAV: NavItem[] = [
   },
   { label: "News", href: "/news" },
   { label: "Events", href: "/events" },
-  { label: "Donate", href: "/donate" },
 ];
+
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)]";
+
+// Inside a dropdown panel the ring sits inside the link so the panel edge does not clip it.
+const panelLinkFocus =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--luminous-mint)]";
+
+// One Donate button shared by the desktop nav and the mobile menu so the two cannot drift.
+const donateButton = `inline-flex items-center justify-center rounded-md bg-teal-ink px-5 text-sm font-semibold text-white hover:bg-teal-ink-hover motion-safe:transition-colors ${focusRing}`;
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const mobileOpenRef = useRef(mobileOpen);
-  mobileOpenRef.current = mobileOpen;
+  const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+
+  // Close the open dropdown. If keyboard focus is inside it, move focus to its button first so it is not lost.
+  function closeDropdown() {
+    const trigger = navRef.current?.querySelector<HTMLElement>('[aria-expanded="true"]');
+    if (trigger?.closest("li")?.contains(document.activeElement)) trigger.focus();
+    setOpenMenu(null);
+  }
+
+  // Close menus when the route changes, including browser Back and Forward.
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setMobileOpen(false);
+    setOpenMenu(null);
+  }
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape" && (mobileOpenRef.current || openMenu !== null)) {
+      if (e.key !== "Escape") return;
+      if (mobileOpen) {
         setMobileOpen(false);
-        setOpenMenu(null);
+        menuButtonRef.current?.focus();
       }
+      if (openMenu !== null) closeDropdown();
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen, openMenu]);
+
+  // Dismiss an open dropdown when the pointer goes down anywhere outside the desktop nav.
+  useEffect(() => {
+    if (openMenu === null) return;
+    function onPointerDown(e: PointerEvent) {
+      if (!navRef.current?.contains(e.target as Node)) setOpenMenu(null);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [openMenu]);
 
+  // Crossing the desktop breakpoint resets both menus, so nothing stale reappears on the way back.
+  // The control that had focus is about to be hidden, so hand focus to its counterpart.
+  // 80rem must match Tailwind's xl and the --header-h breakpoint in globals.css.
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
+    const desktop = window.matchMedia("(min-width: 80rem)");
+    const onChange = () => {
+      const focusInHeader = headerRef.current?.contains(document.activeElement);
+      setOpenMenu(null);
+      if (desktop.matches) setMobileOpen(false);
+      if (focusInHeader) {
+        const target = desktop.matches
+          ? headerRef.current?.querySelector<HTMLElement>('a[href="/"]')
+          : menuButtonRef.current;
+        target?.focus();
+      }
+    };
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
+  }, []);
+
+  // While the mobile menu is open: start from the top of the page, lock page scroll and make
+  // the page behind the menu inert so Tab cannot reach it.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    const behind = Array.from(document.body.children).filter(
+      (el) =>
+        el !== headerRef.current &&
+        !el.tagName.startsWith("NEXT") &&
+        !el.hasAttribute("inert"),
+    );
+    behind.forEach((el) => el.setAttribute("inert", ""));
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      behind.forEach((el) => el.removeAttribute("inert"));
       document.body.style.overflow = "";
-    }
+    };
   }, [mobileOpen]);
 
   return (
-    <header className="relative z-50 text-white bg-[var(--midnight-blue)] border-b border-white/10 shadow-xl">
+    <header ref={headerRef} className="relative z-50 text-white bg-[var(--midnight-blue)] border-b border-white/10 shadow-xl">
       <div className="shell flex h-[calc(var(--header-h)-1px)] items-center justify-between">
         <LogoGroup />
 
         <button
-          className="xl:hidden rounded-md border border-white/20 p-2 text-white hover:bg-white/10"
+          ref={menuButtonRef}
+          className={`xl:hidden inline-flex h-[44px] w-[44px] flex-none items-center justify-center rounded-md border border-white/20 text-white hover:bg-white/10 ${focusRing}`}
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-controls="mobile-nav"
+          aria-controls={mobileOpen ? "mobile-nav" : undefined}
           onClick={() => setMobileOpen((v) => !v)}
         >
           {mobileOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
-        <nav
-          id="primary-nav"
-          className="hidden xl:block h-full"
-          onMouseLeave={() => setOpenMenu(null)}
-        >
+        <nav ref={navRef} aria-label="Primary" className="hidden xl:block h-full">
           <ul className="flex items-center gap-7 h-full text-sm font-medium">
-              {NAV.filter((item) => item.label !== "Donate").map((item) => (
+              {MAIN_NAV.map((item) => (
                 <li
                   key={item.label}
                   className="relative h-full flex items-center"
+                  onBlur={(e) => {
+                    // Keyboard focus moved to something outside this item, so close its dropdown.
+                    if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) {
+                      setOpenMenu((v) => (v === item.label ? null : v));
+                    }
+                  }}
                 >
                   {isNavGroup(item) ? (
                     <>
                       <button
-                        className="flex items-center gap-1 py-2 group transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded"
-                        aria-haspopup="true"
+                        className="-mx-2 flex min-h-11 items-center gap-1 px-2 py-2 group motion-safe:transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
                         aria-expanded={openMenu === item.label}
                         aria-controls={`nav-menu-${item.label.toLowerCase()}`}
-                        onMouseEnter={() => setOpenMenu(item.label)}
-                        onClick={() =>
-                          setOpenMenu((v) =>
-                            v === item.label ? null : item.label,
-                          )
-                        }
+                        onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
                       >
                         <span
-                          className={`relative ${
+                          className={
                             openMenu === item.label
                               ? "text-[var(--luminous-mint)]"
                               : "text-white/90 group-hover:text-[var(--luminous-mint)]"
-                          }`}
+                          }
                         >
                           {item.label}
                         </span>
                         <ChevronDown
-                          className={`w-[0.7em] h-[0.7em] transition-transform ${openMenu === item.label ? "rotate-180" : ""} ${
+                          className={`w-[0.7em] h-[0.7em] motion-safe:transition-transform ${openMenu === item.label ? "rotate-180" : ""} ${
                             openMenu === item.label
                               ? "text-[var(--luminous-mint)]"
                               : "text-white/90 group-hover:text-[var(--luminous-mint)]"
@@ -295,12 +378,16 @@ export default function Header() {
 
                       <div
                         id={`nav-menu-${item.label.toLowerCase()}`}
-                        className={`absolute left-0 top-full mt-0 w-60 rounded-b-lg bg-[var(--midnight-blue)] p-1 shadow-2xl transition-all duration-200 origin-top ${
+                        className={`absolute left-0 top-full mt-0 w-60 rounded-b-xl border border-t-0 border-white/10 bg-[var(--midnight-blue)] p-1 shadow-2xl motion-safe:transition-[opacity,scale,translate,visibility] origin-top ${
                           openMenu === item.label
-                            ? "opacity-100 scale-100 translate-y-0"
-                            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                            ? "motion-safe:duration-200 visible opacity-100 scale-100 translate-y-0"
+                            : `invisible opacity-0 scale-95 -translate-y-2 pointer-events-none ${
+                                // Another panel is opening, so this one leaves at once instead of ghosting over it.
+                                openMenu !== null ? "motion-safe:duration-0" : "motion-safe:duration-200"
+                              }`
                         }`}
-                        onMouseEnter={() => setOpenMenu(item.label)}
+                        // A closed panel is inert so Tab cannot land in it while it fades out.
+                        inert={openMenu !== item.label}
                       >
                         {item.sections ? (
                           <div>
@@ -311,7 +398,7 @@ export default function Header() {
                                 )}
                                 <div>
                                 {section.heading && (
-                                  <p className="px-4 pt-2 pb-1 text-[10px] uppercase tracking-widest font-semibold text-white/50">
+                                  <p className="px-4 pt-2 pb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
                                     {section.heading}
                                   </p>
                                 )}
@@ -319,15 +406,16 @@ export default function Header() {
                                   {section.items.map((sub, idx) => (
                                     <li key={`${sub.href}-${idx}`}>
                                       <Link
-                                        className={`flex items-center justify-between px-4 py-2.5 text-[13px] transition-colors hover:bg-white/5 hover:text-white ${section.tinted ? "text-white/75" : "text-white/80"}`}
+                                        className={`flex items-center justify-between px-4 py-2.5 text-[13px] motion-safe:transition-colors hover:bg-white/5 hover:text-white ${panelLinkFocus} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/80"}`}
                                         href={sub.href}
+                                        aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
                                         target={isExternal(sub.href) ? "_blank" : undefined}
                                         rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
-                                        onClick={() => setOpenMenu(null)}
+                                        onClick={closeDropdown}
                                       >
                                         <span>{sub.label}</span>
                                         {isExternal(sub.href) && (
-                                          <ExternalArrow className="w-3 h-3" />
+                                          <ExternalMark className="w-3 h-3" />
                                         )}
                                       </Link>
                                     </li>
@@ -342,15 +430,16 @@ export default function Header() {
                             {item.items?.map((sub, idx) => (
                               <li key={`${sub.href}-${idx}`}>
                                 <Link
-                                  className="flex items-center justify-between px-4 py-2.5 text-[13px] transition-colors text-white/80 hover:bg-white/5 hover:text-white"
+                                  className={`flex items-center justify-between px-4 py-2.5 text-[13px] motion-safe:transition-colors hover:bg-white/5 hover:text-white ${panelLinkFocus} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/80"}`}
                                   href={sub.href}
+                                  aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
                                   target={isExternal(sub.href) ? "_blank" : undefined}
                                   rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
-                                  onClick={() => setOpenMenu(null)}
+                                  onClick={closeDropdown}
                                 >
                                   <span>{sub.label}</span>
                                   {isExternal(sub.href) && (
-                                    <ExternalArrow className="w-3 h-3" />
+                                    <ExternalMark className="w-3 h-3" />
                                   )}
                                 </Link>
                               </li>
@@ -362,16 +451,18 @@ export default function Header() {
                   ) : (
                     <>
                       <Link
-                        className="py-2 group transition-colors flex items-center gap-1.5"
+                        className={`-mx-2 min-h-11 px-2 py-2 group motion-safe:transition-colors flex items-center gap-1.5 rounded-md ${focusRing}`}
                         href={item.href}
+                        aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                         target={isExternal(item.href) ? "_blank" : undefined}
                         rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
+                        onClick={closeDropdown}
                       >
-                        <span className="relative text-white/90 group-hover:text-[var(--luminous-mint)]">
+                        <span className="text-white/90 group-hover:text-[var(--luminous-mint)]">
                           {item.label}
                         </span>
                         {isExternal(item.href) && (
-                          <ExternalArrow className="w-3 h-3 text-white/60 group-hover:text-[var(--luminous-mint)] transition-colors" />
+                          <ExternalMark className="w-3 h-3 text-white/60 group-hover:text-[var(--luminous-mint)] motion-safe:transition-colors" />
                         )}
                       </Link>
                     </>
@@ -382,7 +473,8 @@ export default function Header() {
             <li>
               <Link
                 href="/donate"
-                className="bg-[var(--teal-ink)] hover:bg-teal-ink-hover text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5 shadow-lg"
+                className={`${donateButton} h-11`}
+                onClick={closeDropdown}
               >
                 Donate
               </Link>
@@ -392,42 +484,58 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div id="mobile-nav" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
-          <ul className="shell flex flex-col py-8 pb-20 gap-6">
-            {NAV.map((item) => (
+        <nav id="mobile-nav" aria-label="Primary" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
+          <div className="shell pt-6">
+            <Link
+              href="/donate"
+              className={`${donateButton} min-h-11 w-full sm:w-auto sm:px-8`}
+              onClick={() => setMobileOpen(false)}
+            >
+              Donate
+            </Link>
+          </div>
+          <ul className="shell flex flex-col pt-4 pb-8">
+            {MAIN_NAV.map((item) => (
               <li
                 key={item.label}
-                className="border-b border-white/5 pb-4 last:border-0"
+                className="border-b border-white/5 last:border-0 sm:max-w-md"
               >
                 {isNavGroup(item) ? (
-                  <details className="group">
-                    <summary className="flex cursor-pointer items-center justify-between text-lg font-semibold text-white/90">
+                  <details
+                    name="mobile-nav-group"
+                    className="group"
+                    onToggle={(e) => {
+                      if (e.currentTarget.open) e.currentTarget.scrollIntoView({ block: "nearest" });
+                    }}
+                  >
+                    <summary className={`-mx-2 flex min-h-11 cursor-pointer items-center justify-between rounded-md px-2 py-2 text-lg font-semibold text-white/90 hover:text-[var(--luminous-mint)] active:text-[var(--luminous-mint)] motion-safe:transition-colors ${focusRing}`}>
                       {item.label}
-                      <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180 text-white/60" />
+                      <ChevronDown className="w-5 h-5 motion-safe:transition-transform group-open:rotate-180 text-white/60" />
                     </summary>
-                    <div className="mt-4 ml-2 border-l border-white/10 pl-5">
+                    <div className="mb-3 ml-2 border-l border-white/10 pl-5">
                       {item.sections ? (
                         item.sections.map((section, sIdx) => (
                           <div key={sIdx}>
                             {sIdx > 0 && <div className="my-3 h-px bg-white/[0.15]" />}
                             {section.heading && (
-                              <p className="mb-2 text-[10px] uppercase tracking-widest font-semibold text-white/50">
+                              <p className="mb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
                                 {section.heading}
                               </p>
                             )}
-                            <ul className="space-y-4">
+                            <ul>
                               {section.items.map((sub, idx) => (
                                 <li key={idx}>
                                   <Link
                                     href={sub.href}
-                                    className={`flex items-center gap-2 text-[15px] py-1 hover:text-[var(--luminous-mint)] ${section.tinted ? "text-white/70" : "text-white/70"}`}
+                                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 text-[15px] hover:text-[var(--luminous-mint)] ${focusRing} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/70"}`}
+                                    aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
                                     onClick={() => setMobileOpen(false)}
                                     target={isExternal(sub.href) ? "_blank" : undefined}
                                     rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
                                   >
                                     <span>{sub.label}</span>
                                     {isExternal(sub.href) && (
-                                      <ExternalArrow className="w-3.5 h-3.5 opacity-60" />
+                                      <ExternalMark className="w-3.5 h-3.5 opacity-60" />
                                     )}
                                   </Link>
                                 </li>
@@ -436,19 +544,20 @@ export default function Header() {
                           </div>
                         ))
                       ) : (
-                        <ul className="space-y-4">
+                        <ul>
                           {item.items?.map((sub, idx) => (
                             <li key={idx}>
                               <Link
                                 href={sub.href}
-                                className="flex items-center gap-2 text-[15px] text-white/70 hover:text-[var(--luminous-mint)] py-1"
+                                className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 text-[15px] hover:text-[var(--luminous-mint)] ${focusRing} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/70"}`}
+                                aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
                                 onClick={() => setMobileOpen(false)}
                                 target={isExternal(sub.href) ? "_blank" : undefined}
                                 rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
                               >
                                 <span>{sub.label}</span>
                                 {isExternal(sub.href) && (
-                                  <ExternalArrow className="w-3.5 h-3.5 opacity-60" />
+                                  <ExternalMark className="w-3.5 h-3.5 opacity-60" />
                                 )}
                               </Link>
                             </li>
@@ -460,20 +569,22 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-2 text-lg font-semibold ${item.label === "Donate" ? "text-[var(--luminous-mint)] mt-2" : "text-white/90"}`}
+                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)]" : "text-white/90"}`}
+                    aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                     onClick={() => setMobileOpen(false)}
                     target={isExternal(item.href) ? "_blank" : undefined}
+                    rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
                   >
                     <span>{item.label}</span>
                     {isExternal(item.href) && (
-                      <ExternalArrow className="w-4 h-4 opacity-60" />
+                      <ExternalMark className="w-4 h-4 opacity-60" />
                     )}
                   </Link>
                 )}
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
       )}
     </header>
   );
