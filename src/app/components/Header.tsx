@@ -511,7 +511,7 @@ export default function Header() {
         <nav id="mobile-nav" aria-label="Primary" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
           {/* Top of the panel so it stays in view when an accordion section is open. */}
           <div className="shell pt-4 sm:hidden">
-            <Link href="/donate" className={`${donateButton} w-full max-w-xs`} onClick={closeMenus}>
+            <Link href="/donate" className={`${donateButton} w-full`} onClick={closeMenus}>
               Donate
             </Link>
           </div>
