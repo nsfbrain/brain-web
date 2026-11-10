@@ -88,11 +88,15 @@ function CloseIcon({ className = "w-6 h-6" }: { className?: string }) {
   );
 }
 
+// Shared by the wordmark and the seal so the two cannot drift. 36px only below 360px, where 44px would
+// collide with the menu button. The sm step matches --header-h in globals.css.
+const logoHeight = "h-9 min-[22.5rem]:h-11 sm:h-[52px] w-auto object-contain";
+
 function LogoGroup() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-[16px] xl:gap-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
+      className="flex items-center gap-4 sm:gap-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
     >
       <Image
         src="/brain-center.png"
@@ -100,17 +104,17 @@ function LogoGroup() {
         width={470}
         height={137}
         priority
-        className="h-[36px] xl:h-[44px] w-auto object-contain"
+        className={logoHeight}
       />
 
       {/* Divider and NSF seal. The funding acknowledgment text lives in the footer. */}
-      <span aria-hidden="true" className="h-[32px] xl:h-[36px] w-px bg-white/25" />
+      <span aria-hidden="true" className="h-8 sm:h-10 w-px shrink-0 bg-white/25" />
       <Image
         src="/nsf-logo.png"
         alt="U.S. National Science Foundation"
         width={48}
         height={48}
-        className="h-[36px] xl:h-[44px] w-auto object-contain"
+        className={logoHeight}
       />
     </Link>
   );
@@ -118,12 +122,13 @@ function LogoGroup() {
 
 type NavSubItem = { label: string; href: string };
 type NavSection = { heading?: string; items: NavSubItem[] };
-type NavGroup = { label: string; items?: NavSubItem[]; sections?: NavSection[] };
+// Every group uses sections (a single unnamed section when it has no headings), so each panel has one render path.
+type NavGroup = { label: string; sections: NavSection[] };
 type NavSingle = { label: string; href: string };
 type NavItem = NavGroup | NavSingle;
 
 function isNavGroup(item: NavItem): item is NavGroup {
-  return "items" in item || "sections" in item;
+  return "sections" in item;
 }
 
 function isCurrent(pathname: string, href: string) {
@@ -134,30 +139,42 @@ function isCurrent(pathname: string, href: string) {
 const MAIN_NAV: NavItem[] = [
   {
     label: "About",
-    items: [
-      { label: "Media", href: "/media" },
-      { label: "NSF IUCRC", href: "/about/iucrc" },
-      { label: "Uniqueness", href: "/about/uniqueness" },
-      { label: "Intellectual Property", href: "/about/intellectual-property" },
-      { label: "FAQ", href: "/faq" },
+    sections: [
+      {
+        items: [
+          { label: "Media", href: "/media" },
+          { label: "NSF IUCRC", href: "/about/iucrc" },
+          { label: "Uniqueness", href: "/about/uniqueness" },
+          { label: "Intellectual Property", href: "/about/intellectual-property" },
+          { label: "FAQ", href: "/faq" },
+        ],
+      },
     ],
   },
   {
     label: "Research",
-    items: [
-      { label: "Thrusts", href: "/research/thrusts" },
-      { label: "Example Projects", href: "/research/example-projects" },
-      { label: "Facilities", href: "/research/facilities" },
+    sections: [
+      {
+        items: [
+          { label: "Thrusts", href: "/research/thrusts" },
+          { label: "Example Projects", href: "/research/example-projects" },
+          { label: "Facilities", href: "/research/facilities" },
+        ],
+      },
     ],
   },
   {
     label: "Impacts",
-    items: [
-      { label: "Making an Impact", href: "/impacts/making-an-impact" },
-      { label: "Economic Impact", href: "/impacts/economic-impact" },
-      { label: "Broader Impacts", href: "/impacts/broader-impacts" },
-      { label: "Academic Assessments", href: "/impacts/academic-assessments" },
-      { label: "Publications", href: "/publications" },
+    sections: [
+      {
+        items: [
+          { label: "Making an Impact", href: "/impacts/making-an-impact" },
+          { label: "Economic Impact", href: "/impacts/economic-impact" },
+          { label: "Broader Impacts", href: "/impacts/broader-impacts" },
+          { label: "Academic Assessments", href: "/impacts/academic-assessments" },
+          { label: "Publications", href: "/publications" },
+        ],
+      },
     ],
   },
   {
@@ -213,10 +230,14 @@ const MAIN_NAV: NavItem[] = [
   },
   {
     label: "Membership",
-    items: [
-      { label: "Innovation Catalysts", href: "/membership/catalysts" },
-      { label: "Benefits", href: "/membership/benefits" },
-      { label: "Join", href: "/join" },
+    sections: [
+      {
+        items: [
+          { label: "Innovation Catalysts", href: "/membership/catalysts" },
+          { label: "Benefits", href: "/membership/benefits" },
+          { label: "Join", href: "/join" },
+        ],
+      },
     ],
   },
   { label: "News", href: "/news" },
@@ -230,8 +251,43 @@ const focusRing =
 const panelLinkFocus =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--luminous-mint)]";
 
-// One Donate button shared by the desktop nav and the mobile menu so the two cannot drift.
-const donateButton = `inline-flex items-center justify-center rounded-md bg-teal-ink px-5 text-sm font-semibold text-white hover:bg-teal-ink-hover motion-safe:transition-colors ${focusRing}`;
+// Donate keeps a solid teal-ink fill (the owner chose it over the guide's outlined B6.4 variant).
+// Shared by the header bar and the phone menu. The ring offset keeps the mint focus ring off the teal.
+const donateButton = `inline-flex h-11 items-center justify-center rounded-md bg-teal-ink px-5 text-[0.9375rem] font-semibold text-white hover:bg-teal-ink-hover motion-safe:transition-colors ${focusRing} focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--midnight-blue)]`;
+
+// Sub-link styles: desktop dropdown panels and the mobile accordion.
+const panelLink = `flex min-h-11 items-center justify-between gap-2 rounded-md px-3 text-[15px] motion-safe:transition-colors hover:bg-white/5 hover:text-white ${panelLinkFocus}`;
+const accordionLink = `-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 text-[15px] hover:text-[var(--luminous-mint)] ${focusRing}`;
+
+function SubLink({
+  item,
+  pathname,
+  className,
+  idleColor,
+  onClick,
+}: {
+  item: NavSubItem;
+  pathname: string;
+  className: string;
+  idleColor: string;
+  onClick: () => void;
+}) {
+  const external = isExternal(item.href);
+  const current = isCurrent(pathname, item.href);
+  return (
+    <Link
+      href={item.href}
+      className={`${className} ${current ? "text-[var(--luminous-mint)] font-semibold" : idleColor}`}
+      aria-current={current ? "page" : undefined}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      onClick={onClick}
+    >
+      <span>{item.label}</span>
+      {external && <ExternalMark className="w-3.5 h-3.5 opacity-60" />}
+    </Link>
+  );
+}
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -246,6 +302,12 @@ export default function Header() {
     const trigger = navRef.current?.querySelector<HTMLElement>('[aria-expanded="true"]');
     if (trigger?.closest("li")?.contains(document.activeElement)) trigger.focus();
     setOpenMenu(null);
+  }
+
+  // Donate closes everything itself, because on /donate the route does not change.
+  function closeMenus() {
+    closeDropdown();
+    setMobileOpen(false);
   }
 
   // Close menus when the route changes, including browser Back and Forward.
@@ -281,7 +343,7 @@ export default function Header() {
 
   // Crossing the desktop breakpoint resets both menus, so nothing stale reappears on the way back.
   // The control that had focus is about to be hidden, so hand focus to its counterpart.
-  // 80rem must match Tailwind's xl and the --header-h breakpoint in globals.css.
+  // 80rem must match Tailwind's xl, where the desktop nav replaces the menu button.
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 80rem)");
     const onChange = () => {
@@ -322,183 +384,140 @@ export default function Header() {
 
   return (
     <header ref={headerRef} className="relative z-50 text-white bg-[var(--midnight-blue)] border-b border-white/10 shadow-xl">
-      <div className="shell flex h-[calc(var(--header-h)-1px)] items-center justify-between">
+      <div className="shell flex h-[calc(var(--header-h)-1px)] items-center gap-3 xl:gap-8">
         <LogoGroup />
 
-        <button
-          ref={menuButtonRef}
-          className={`xl:hidden inline-flex h-[44px] w-[44px] flex-none items-center justify-center rounded-md border border-white/20 text-white hover:bg-white/10 ${focusRing}`}
-          aria-expanded={mobileOpen}
-          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-controls={mobileOpen ? "mobile-nav" : undefined}
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-        </button>
-
-        <nav ref={navRef} aria-label="Primary" className="hidden xl:block h-full">
-          <ul className="flex items-center gap-7 h-full text-sm font-medium">
-              {MAIN_NAV.map((item) => (
-                <li
-                  key={item.label}
-                  className="relative h-full flex items-center"
-                  onBlur={(e) => {
-                    // Keyboard focus moved to something outside this item, so close its dropdown.
-                    if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) {
-                      setOpenMenu((v) => (v === item.label ? null : v));
-                    }
-                  }}
-                >
-                  {isNavGroup(item) ? (
-                    <>
-                      <button
-                        className="-mx-2 flex min-h-11 items-center gap-1 px-2 py-2 group motion-safe:transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
-                        aria-expanded={openMenu === item.label}
-                        aria-controls={`nav-menu-${item.label.toLowerCase()}`}
-                        onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
-                      >
-                        <span
-                          className={
-                            openMenu === item.label
-                              ? "text-[var(--luminous-mint)]"
-                              : "text-white/90 group-hover:text-[var(--luminous-mint)]"
-                          }
-                        >
-                          {item.label}
-                        </span>
-                        <ChevronDown
-                          className={`w-[0.7em] h-[0.7em] motion-safe:transition-transform ${openMenu === item.label ? "rotate-180" : ""} ${
-                            openMenu === item.label
-                              ? "text-[var(--luminous-mint)]"
-                              : "text-white/90 group-hover:text-[var(--luminous-mint)]"
-                          }`}
-                        />
-                      </button>
-
-                      <div
-                        id={`nav-menu-${item.label.toLowerCase()}`}
-                        className={`absolute left-0 top-full mt-0 w-60 rounded-b-xl border border-t-0 border-white/10 bg-[var(--midnight-blue)] p-1 shadow-2xl motion-safe:transition-[opacity,scale,translate,visibility] origin-top ${
+        {/* The nav takes the free width and spreads its items evenly, so spare room is shared by every
+            gap instead of pooling between the seal and the first link. */}
+        <nav ref={navRef} aria-label="Primary" className="hidden xl:block h-full flex-1">
+          <ul className="flex h-full items-center justify-between gap-5 text-sm font-medium">
+            {MAIN_NAV.map((item) => (
+              <li
+                key={item.label}
+                className="relative h-full flex items-center"
+                onBlur={(e) => {
+                  // Keyboard focus moved to something outside this item, so close its dropdown.
+                  if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) {
+                    setOpenMenu((v) => (v === item.label ? null : v));
+                  }
+                }}
+              >
+                {isNavGroup(item) ? (
+                  <>
+                    <button
+                      className="-mx-2 flex min-h-11 items-center gap-1 px-2 py-2 group motion-safe:transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--luminous-mint)] rounded-md"
+                      aria-expanded={openMenu === item.label}
+                      aria-controls={`nav-menu-${item.label.toLowerCase()}`}
+                      onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
+                    >
+                      <span
+                        className={
                           openMenu === item.label
-                            ? "motion-safe:duration-200 visible opacity-100 scale-100 translate-y-0"
-                            : `invisible opacity-0 scale-95 -translate-y-2 pointer-events-none ${
-                                // Another panel is opening, so this one leaves at once instead of ghosting over it.
-                                openMenu !== null ? "motion-safe:duration-0" : "motion-safe:duration-200"
-                              }`
-                        }`}
-                        // A closed panel is inert so Tab cannot land in it while it fades out.
-                        inert={openMenu !== item.label}
+                            ? "text-[var(--luminous-mint)]"
+                            : "text-white/90 group-hover:text-[var(--luminous-mint)]"
+                        }
                       >
-                        {item.sections ? (
-                          <div>
-                            {item.sections.map((section, sIdx) => (
-                              <div key={sIdx}>
-                                {sIdx > 0 && (
-                                  <div className="mx-3 my-1 h-px bg-white/[0.15]" />
-                                )}
-                                <div>
-                                {section.heading && (
-                                  <p className="px-4 pt-2 pb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
-                                    {section.heading}
-                                  </p>
-                                )}
-                                <ul>
-                                  {section.items.map((sub, idx) => (
-                                    <li key={`${sub.href}-${idx}`}>
-                                      <Link
-                                        className={`flex items-center justify-between px-4 py-2.5 text-[13px] motion-safe:transition-colors hover:bg-white/5 hover:text-white ${panelLinkFocus} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/80"}`}
-                                        href={sub.href}
-                                        aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
-                                        target={isExternal(sub.href) ? "_blank" : undefined}
-                                        rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
-                                        onClick={closeDropdown}
-                                      >
-                                        <span>{sub.label}</span>
-                                        {isExternal(sub.href) && (
-                                          <ExternalMark className="w-3 h-3" />
-                                        )}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        className={`w-[0.7em] h-[0.7em] motion-safe:transition-transform ${openMenu === item.label ? "rotate-180" : ""} ${
+                          openMenu === item.label
+                            ? "text-[var(--luminous-mint)]"
+                            : "text-white/90 group-hover:text-[var(--luminous-mint)]"
+                        }`}
+                      />
+                    </button>
+
+                    {/* -left-5 cancels the panel and link padding so the first link's text lines up under the trigger. */}
+                    <div
+                      id={`nav-menu-${item.label.toLowerCase()}`}
+                      className={`absolute -left-5 top-full w-64 rounded-b-xl border border-t-0 border-white/10 bg-[var(--midnight-blue)] p-2 shadow-2xl motion-safe:transition-[opacity,scale,translate,visibility] origin-top ${
+                        openMenu === item.label
+                          ? "motion-safe:duration-200 visible opacity-100 scale-100 translate-y-0"
+                          : `invisible opacity-0 scale-95 -translate-y-2 pointer-events-none ${
+                              // Another panel is opening, so this one leaves at once instead of ghosting over it.
+                              openMenu !== null ? "motion-safe:duration-0" : "motion-safe:duration-200"
+                            }`
+                      }`}
+                      // A closed panel is inert so Tab cannot land in it while it fades out.
+                      inert={openMenu !== item.label}
+                    >
+                      {item.sections.map((section, sIdx) => (
+                        <div key={sIdx}>
+                          {sIdx > 0 && <div className="mx-3 my-1 h-px bg-white/[0.15]" />}
+                          {section.heading && (
+                            <p className="px-3 pt-2 pb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
+                              {section.heading}
+                            </p>
+                          )}
                           <ul>
-                            {item.items?.map((sub, idx) => (
-                              <li key={`${sub.href}-${idx}`}>
-                                <Link
-                                  className={`flex items-center justify-between px-4 py-2.5 text-[13px] motion-safe:transition-colors hover:bg-white/5 hover:text-white ${panelLinkFocus} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/80"}`}
-                                  href={sub.href}
-                                  aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
-                                  target={isExternal(sub.href) ? "_blank" : undefined}
-                                  rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
+                            {section.items.map((sub) => (
+                              <li key={sub.href}>
+                                <SubLink
+                                  item={sub}
+                                  pathname={pathname}
+                                  className={panelLink}
+                                  idleColor="text-white/85"
                                   onClick={closeDropdown}
-                                >
-                                  <span>{sub.label}</span>
-                                  {isExternal(sub.href) && (
-                                    <ExternalMark className="w-3 h-3" />
-                                  )}
-                                </Link>
+                                />
                               </li>
                             ))}
                           </ul>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        className={`-mx-2 min-h-11 px-2 py-2 group motion-safe:transition-colors flex items-center gap-1.5 rounded-md ${focusRing}`}
-                        href={item.href}
-                        aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
-                        target={isExternal(item.href) ? "_blank" : undefined}
-                        rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
-                        onClick={closeDropdown}
-                      >
-                        <span className="text-white/90 group-hover:text-[var(--luminous-mint)]">
-                          {item.label}
-                        </span>
-                        {isExternal(item.href) && (
-                          <ExternalMark className="w-3 h-3 text-white/60 group-hover:text-[var(--luminous-mint)] motion-safe:transition-colors" />
-                        )}
-                      </Link>
-                    </>
-                  )}
-                </li>
-              ))}
-
-            <li>
-              <Link
-                href="/donate"
-                className={`${donateButton} h-11`}
-                onClick={closeDropdown}
-              >
-                Donate
-              </Link>
-            </li>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    className={`-mx-2 min-h-11 px-2 py-2 group motion-safe:transition-colors flex items-center gap-1.5 rounded-md ${focusRing}`}
+                    href={item.href}
+                    aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
+                    target={isExternal(item.href) ? "_blank" : undefined}
+                    rel={isExternal(item.href) ? "noopener noreferrer" : undefined}
+                    onClick={closeDropdown}
+                  >
+                    <span className="text-white/90 group-hover:text-[var(--luminous-mint)]">
+                      {item.label}
+                    </span>
+                    {isExternal(item.href) && (
+                      <ExternalMark className="w-3 h-3 text-white/60 group-hover:text-[var(--luminous-mint)] motion-safe:transition-colors" />
+                    )}
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
+
+        {/* One Donate from sm up, the same element on both sides of the xl switch. Phones get it in the menu. */}
+        <div className="ml-auto flex items-center gap-3">
+          <Link href="/donate" className={`${donateButton} max-sm:hidden`} onClick={closeMenus}>
+            Donate
+          </Link>
+          <button
+            ref={menuButtonRef}
+            className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-md border border-white/20 text-white hover:bg-white/10 xl:hidden ${focusRing}`}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-controls={mobileOpen ? "mobile-nav" : undefined}
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (
         <nav id="mobile-nav" aria-label="Primary" className="xl:hidden absolute top-full left-0 w-full bg-[var(--midnight-blue)] border-t border-white/10 shadow-2xl h-[calc(100dvh-var(--header-h)+1px)] overflow-y-auto">
-          <div className="shell pt-6">
-            <Link
-              href="/donate"
-              className={`${donateButton} min-h-11 w-full sm:w-auto sm:px-8`}
-              onClick={() => setMobileOpen(false)}
-            >
+          {/* Top of the panel so it stays in view when an accordion section is open. */}
+          <div className="shell pt-4 sm:hidden">
+            <Link href="/donate" className={`${donateButton} w-full`} onClick={closeMenus}>
               Donate
             </Link>
           </div>
-          <ul className="shell flex flex-col pt-4 pb-8">
+          <ul className="shell flex flex-col pt-2 pb-8">
             {MAIN_NAV.map((item) => (
-              <li
-                key={item.label}
-                className="border-b border-white/5 last:border-0 sm:max-w-md"
-              >
+              <li key={item.label} className="border-b border-white/5 last:border-0">
                 {isNavGroup(item) ? (
                   <details
                     name="mobile-nav-group"
@@ -507,68 +526,40 @@ export default function Header() {
                       if (e.currentTarget.open) e.currentTarget.scrollIntoView({ block: "nearest" });
                     }}
                   >
-                    <summary className={`-mx-2 flex min-h-11 cursor-pointer items-center justify-between rounded-md px-2 py-2 text-lg font-semibold text-white/90 hover:text-[var(--luminous-mint)] active:text-[var(--luminous-mint)] motion-safe:transition-colors ${focusRing}`}>
+                    <summary className={`-mx-2 flex min-h-11 cursor-pointer items-center justify-between rounded-md px-2 py-2 sm:py-3 text-lg font-semibold text-white/90 hover:text-[var(--luminous-mint)] active:text-[var(--luminous-mint)] motion-safe:transition-colors ${focusRing}`}>
                       {item.label}
                       <ChevronDown className="w-5 h-5 motion-safe:transition-transform group-open:rotate-180 text-white/60" />
                     </summary>
                     <div className="mb-3 ml-2 border-l border-white/10 pl-5">
-                      {item.sections ? (
-                        item.sections.map((section, sIdx) => (
-                          <div key={sIdx}>
-                            {sIdx > 0 && <div className="my-3 h-px bg-white/[0.15]" />}
-                            {section.heading && (
-                              <p className="mb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
-                                {section.heading}
-                              </p>
-                            )}
-                            <ul>
-                              {section.items.map((sub, idx) => (
-                                <li key={idx}>
-                                  <Link
-                                    href={sub.href}
-                                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 text-[15px] hover:text-[var(--luminous-mint)] ${focusRing} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/70"}`}
-                                    aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
-                                    onClick={() => setMobileOpen(false)}
-                                    target={isExternal(sub.href) ? "_blank" : undefined}
-                                    rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
-                                  >
-                                    <span>{sub.label}</span>
-                                    {isExternal(sub.href) && (
-                                      <ExternalMark className="w-3.5 h-3.5 opacity-60" />
-                                    )}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))
-                      ) : (
-                        <ul>
-                          {item.items?.map((sub, idx) => (
-                            <li key={idx}>
-                              <Link
-                                href={sub.href}
-                                className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 text-[15px] hover:text-[var(--luminous-mint)] ${focusRing} ${isCurrent(pathname, sub.href) ? "text-[var(--luminous-mint)] font-semibold" : "text-white/70"}`}
-                                aria-current={isCurrent(pathname, sub.href) ? "page" : undefined}
-                                onClick={() => setMobileOpen(false)}
-                                target={isExternal(sub.href) ? "_blank" : undefined}
-                                rel={isExternal(sub.href) ? "noopener noreferrer" : undefined}
-                              >
-                                <span>{sub.label}</span>
-                                {isExternal(sub.href) && (
-                                  <ExternalMark className="w-3.5 h-3.5 opacity-60" />
-                                )}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                      {item.sections.map((section, sIdx) => (
+                        <div key={sIdx}>
+                          {sIdx > 0 && <div className="my-3 h-px bg-white/[0.15]" />}
+                          {section.heading && (
+                            <p className="mb-1 text-xs uppercase tracking-widest font-semibold text-white/70">
+                              {section.heading}
+                            </p>
+                          )}
+                          <ul>
+                            {section.items.map((sub) => (
+                              <li key={sub.href}>
+                                <SubLink
+                                  item={sub}
+                                  pathname={pathname}
+                                  className={accordionLink}
+                                  idleColor="text-white/70"
+                                  onClick={() => setMobileOpen(false)}
+                                />
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
                   </details>
                 ) : (
                   <Link
                     href={item.href}
-                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)]" : "text-white/90"}`}
+                    className={`-mx-2 flex min-h-11 items-center gap-2 rounded-md px-2 py-2 sm:py-3 text-lg font-semibold ${focusRing} ${isCurrent(pathname, item.href) ? "text-[var(--luminous-mint)]" : "text-white/90"}`}
                     aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
                     onClick={() => setMobileOpen(false)}
                     target={isExternal(item.href) ? "_blank" : undefined}

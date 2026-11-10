@@ -26,7 +26,7 @@
 
   --white: #ffffff;
 
-  /* Total header height: a 64px row (80px at xl) plus its 1px border. Header.tsx derives its row height from this. */
+  /* Total header height: a 64px row (80px from sm up) plus its 1px border. Header.tsx derives its row height from this. */
   --header-h: 65px;
 
   /* Semantic surfaces */
@@ -45,8 +45,9 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
-/* 80rem must match Tailwind's xl and the matchMedia query in Header.tsx. */
-@media (width >= 80rem) {
+/* 40rem is Tailwind's sm, where the logo in Header.tsx steps up to 52px. Keeping the step here, not at the
+   xl nav switch, means the header does not change height when a window is resized across 1280px. */
+@media (width >= 40rem) {
   :root {
     --header-h: 81px;
   }
