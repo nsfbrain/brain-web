@@ -39,10 +39,6 @@
 
   --accent-primary: var(--deep-teal);
   --accent-secondary: var(--luminous-mint);
-
-  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: var(--font-merriweather), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 /* 40rem is Tailwind's sm, where the logo in Header.tsx steps up to 52px. Keeping the step here, not at the
@@ -61,9 +57,9 @@
   --color-foreground: var(--foreground);
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-merriweather), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 /* The one page container. Header, PageHeader, every body section and the

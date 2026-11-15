@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -36,6 +37,13 @@ export const metadata: Metadata = {
   },
 };
 
+// latin-ext is required: faculty bios include characters outside Latin-1 (UMH, TEC names).
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ResearchOrganization",
@@ -57,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
