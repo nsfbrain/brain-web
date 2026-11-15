@@ -54,7 +54,7 @@ export default function Footer() {
                 <a
                   href="https://www.facebook.com/iucrcbraincenter"
                   aria-label="Facebook"
-                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-[var(--deep-teal)] transition"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-teal-ink transition"
                 >
                   {facebookIcon}
                 </a>
@@ -63,7 +63,7 @@ export default function Footer() {
                 <a
                   href="https://www.youtube.com/channel/UCgLZUqM4dGilP5EUVtsDBfw"
                   aria-label="YouTube"
-                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-[var(--deep-teal)] transition"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-teal-ink transition"
                 >
                   {youtubeIcon}
                 </a>
@@ -72,7 +72,7 @@ export default function Footer() {
                 <a
                   href="https://www.instagram.com/iucrcbraincenter/"
                   aria-label="Instagram"
-                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-[var(--deep-teal)] transition"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-teal-ink transition"
                 >
                   {instagramIcon}
                 </a>
@@ -81,7 +81,7 @@ export default function Footer() {
                 <a
                   href="https://www.linkedin.com/company/iucrcbraincenter/posts/?feedView=all"
                   aria-label="LinkedIn"
-                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-[var(--deep-teal)] transition"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[var(--midnight-blue)] hover:text-teal-ink transition"
                 >
                   {linkedinIcon}
                 </a>
