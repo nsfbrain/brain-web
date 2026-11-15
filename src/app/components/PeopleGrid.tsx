@@ -31,7 +31,7 @@ export default function PeopleGrid({ people, variant = 'student', profileSlugs }
   return (
     <div>
       {/* Search bar — focus ring on wrapper so outline-none on input is safe */}
-      <div className="flex items-center gap-2 mb-4 px-4 py-2.5 rounded-full border border-slate-300 bg-white shadow-sm w-full max-w-[480px] focus-within:ring-2 focus-within:ring-[var(--deep-teal)] focus-within:border-transparent transition-shadow">
+      <div className="flex items-center gap-2 mb-4 px-4 py-2.5 rounded-full border border-slate-300 bg-white shadow-sm w-full max-w-[480px] focus-within:ring-2 focus-within:ring-teal-ink focus-within:ring-offset-2 focus-within:outline-2 focus-within:outline-transparent focus-within:border-transparent transition-shadow">
         <svg className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
         </svg>
