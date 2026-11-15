@@ -17,12 +17,23 @@
    introducing new gray values. */
 
 :root {
-  --midnight-blue: #02111B;   /* deeper, cleaner navy */
-  --deep-teal: #00A79D;       /* bright saturated teal. For fills paired with dark text, large icons/graphics, and any use on --midnight-blue backgrounds. Only ~3:1 on white/light-slate, so do not pair with white text or use as small text/icon color on light surfaces */
+  /* Guide names (design-guide B1.1). These hold the values; the older names below are
+     aliases kept while call sites migrate, then deleted. */
+  --navy: #02111B;            /* deeper, cleaner navy. Ink and dark surfaces */
+  --teal: #00A79D;            /* bright saturated teal. For fills paired with dark text, large icons/graphics, and any use on --navy backgrounds. Only ~3:1 on white/light-slate, so do not pair with white text or use as small text/icon color on light surfaces */
+  --mint: #5EEAD4;            /* vivid mint accent. Dark backgrounds only, pairs with dark text */
+  --ink: var(--navy);         /* headings and body text on light surfaces */
+  --ink-muted: #334155;       /* slate-700, secondary body copy */
+  --ink-subtle: #475569;      /* slate-600, captions and meta. The floor for text on white */
+  --surface-tint: #E6FAF8;    /* cleaner, fresher background tint. Page header band, callouts */
+
+  --midnight-blue: var(--navy);
+  --deep-teal: var(--teal);
+  --luminous-mint: var(--mint);
+  --light-slate: var(--surface-tint);
+
   --teal-ink: #00756E;        /* same hue, darkened (5.57:1 on white, 5.14:1 on light-slate). Use for teal text, links, eyebrows, and as a CTA fill with white text on light surfaces */
   --teal-ink-hover: #00635D;  /* hover/pressed for --teal-ink, 7.14:1 on white */
-  --luminous-mint: #5EEAD4;   /* vivid mint accent. Hover/focus highlight, pairs with dark text only */
-  --light-slate: #E6FAF8;     /* cleaner, fresher background tint */
 
   --white: #ffffff;
 
@@ -51,6 +62,11 @@
 
 
 @theme inline {
+  --color-navy: var(--navy);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-surface-tint: var(--surface-tint);
   --color-teal-ink: var(--teal-ink);
   --color-teal-ink-hover: var(--teal-ink-hover);
   --color-background: var(--background);
